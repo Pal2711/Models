@@ -1,4 +1,4 @@
-<h1 align="center">🏎️ F1 Ticket Booking System</h1>
+<h1 align="center">📸 Models Booking System</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Made%20With-Python-blue?style=for-the-badge&logo=python" />
@@ -6,36 +6,37 @@
 </p>
 
 <p align="center">
-  <strong>A sleek and modern Formula 1 Ticket Booking System built with Python & MySQL</strong>
+  <strong>A sleek and modern Models Booking System built with Python & MySQL</strong>
 </p>
 
 ---
 
 ## 📌 About The Project
 
-The **F1 Ticket Booking System** is a Python-based web application that allows users to browse races and book tickets online.  
-It includes a fully functional **Admin Panel** to manage users, races, bookings, and feedback.
+The **Models Booking System** is a Python-based web application that allows users to browse models and book appointments online.  
+It includes a fully functional **Admin Panel** to manage users, models, bookings, feedback, and notifications.
 
 **Key Highlights:**
-- Built with **Python** (Django or Flask)
-- Secure user authentication & sessions
-- Fully responsive front-end with HTML, CSS, Bootstrap
-- Admin dashboard with role-based access
-- MySQL or SQLite database for storing races, bookings, and users
+- Built with **Python** (Django or Flask)  
+- Secure user authentication & sessions  
+- Fully responsive front-end with HTML, CSS, Bootstrap  
+- Admin dashboard with role-based access  
+- MySQL or SQLite database for storing models, bookings, and users  
+- Email notifications for bookings and confirmations  
 
 ---
 
 ## 📈 Future Enhancements
 
-* 💳 **Online Payment Integration** – Buy tickets securely
-* 🪑 **Seat Selection System** – Choose exact seats for each race
-* ✉️ **Email Ticket Confirmation** – Send tickets automatically via email
-* 📊 **Live Leaderboard** – Show real-time race standings
-* 📱 **Progressive Web App (PWA)** – Access tickets from mobile app
+* 💳 **Online Payment Integration** – Book models securely  
+* 🪑 **Appointment Scheduling System** – Choose exact time slots  
+* ✉️ **Email Booking Confirmation** – Send booking details automatically via email  
+* 📊 **Live Availability Dashboard** – Show real-time models availability  
+* 📱 **Progressive Web App (PWA)** – Access bookings from mobile app  
 
 ---
 
-<h1 align="center">🛡️ F1 Admin Panel</h1>
+<h1 align="center">🛡️ Models Admin Panel</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Role-Administrator-red?style=for-the-badge&logo=security" />
@@ -43,84 +44,82 @@ It includes a fully functional **Admin Panel** to manage users, races, bookings,
 </p>
 
 <p align="center">
-  <strong>A powerful and secure Admin Panel to manage the F1 Ticket Booking System</strong>
+  <strong>A powerful and secure Admin Panel to manage the Models Booking System</strong>
 </p>
 
 ---
 
 ## 🧩 Admin Features at a Glance
 
-* 🔐 **Admin Authentication** – Secure admin login with sessions
-* 📊 **Dashboard Overview** – View users, bookings, races, and feedback stats
-* 🏁 **Race Management** – Add, update, delete F1 race details
-* 🎟️ **Booking Management** – View & manage all ticket bookings
-* 👤 **User Management** – View, block, or remove users
-* 💬 **Feedback Management** – Review and manage user feedback
-* 🛠️ **Role-Based Access** – Restricted access for admin-only routes
-* 🎨 **Admin UI** – Clean dashboard with responsive layout
+* 🔐 **Admin Authentication** – Secure admin login with sessions  
+* 📊 **Dashboard Overview** – View users, bookings, models, and feedback stats  
+* 👗 **Models Management** – Add, update, delete models profiles  
+* 🎟️ **Booking Management** – View & manage all bookings  
+* 👤 **User Management** – View, block, or remove users  
+* 💬 **Feedback Management** – Review and manage user feedback  
+* ✉️ **Email Notifications** – Send automated emails for bookings or feedback  
+* 🛠️ **Role-Based Access** – Restricted access for admin-only routes  
+* 🎨 **Admin UI** – Clean dashboard with responsive layout  
 
 ---
 
-## 🏁 Race Management
+## 👗 Models Management
 
-* ➕ Add new F1 races (name, location, date, price)
-* ✏️ Edit race details
-* ❌ Delete or deactivate races
-* 👁️ View all available races
+* ➕ Add new models (name, portfolio, location, price)  
+* ✏️ Edit models profiles  
+* 👁️ View all available models  
 
 ---
 
 ## 📊 Admin Dashboard Overview
 
-* 📈 Total Users
-* 🎟️ Total Bookings
-* 🏁 Total Races
-* 💬 New Feedback Messages
+* 📈 Total Users  
+* 🎟️ Total Bookings  
+* 👗 Total Models  
+* 💬 New Feedback Messages  
 
 ---
 
-## 🎟️ Ticket & Booking Management
+## 🎟️ Booking Management
 
-* 📄 View all ticket bookings
+* 📄 View all bookings  
 * 🔍 Filter bookings by:
 
-  * User
-  * Race
-  * Ticket Type (VIP / General)
-* ❌ Cancel or remove bookings
-* 📊 View booking statistics
+  * User  
+  * Model  
+* ✉️ Send email confirmations automatically  
+* 📊 View booking statistics  
 
 ---
 
 ## 👤 User Management
 
-* 📋 View registered users
-* 🚫 Block / Unblock users
-* ❌ Delete users if necessary
-* 👁️ View user booking history
+* 📋 View registered users  
+* 🚫 Block / Unblock users  
+* ❌ Delete users if necessary  
+* 👁️ View user booking history  
+* ✉️ Receive email notifications for booking confirmation  
 
 ---
 
 ## 💬 Feedback Management
 
-* 📥 View all user feedback
-* 🕒 See feedback timestamps
-* 🗑️ Delete inappropriate or resolved messages
-* 📌 Mark feedback as reviewed
+* 📥 View all user feedback  
+* 🕒 See feedback timestamps  
+* 🗑️ Delete inappropriate or resolved messages  
+* 📌 Mark feedback as reviewed  
+* ✉️ Send response emails to users (optional)  
 
 ---
 
 ## ⚙️ Admin Panel Tech Stack
 
-| 💻 Technology          | 🚀 Usage                           |
-| ---------------------- | ---------------------------------- |
+| 💻 Technology            | 🚀 Usage                           |
+| ------------------------ | ---------------------------------- |
 | 🐍 Python (Django/Flask) | Admin & backend logic             |
-| 🗃️ MySQL / SQLite       | Database for users, bookings, races |
-| 🌐 HTML/CSS/Bootstrap   | Admin & user UI                   |
-| 🔐 Django/Flask Sessions | Secure authentication             |
-| 📄 Font Awesome         | Icons for admin tools & navigation |
-| 📊 Chart.js / Plotly    | Dashboard statistics & analytics   |
-
----
-
-
+| 🗃️ MySQL / SQLite         | Database for users, bookings, models |
+| 🌐 HTML/CSS/Bootstrap     | Admin & user UI                   |
+| 🔐 Django/Flask Sessions   | Secure authentication             |
+| 📄 Font Awesome           | Icons for admin tools & navigation |
+| 📊 Chart.js / Plotly      | Dashboard statistics & analytics  |
+| ✉️ SMTP / Email Library    | Automated email notifications     |
