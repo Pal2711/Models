@@ -63,6 +63,3 @@ This project demonstrates:
 | Git & GitHub | Version control |
 
 ---
-
-git clone https://github.com/Pal2711/Models.git
-cd Models
