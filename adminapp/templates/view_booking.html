@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/admin/css/style.css">
+
+    <style>
+        .form-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            background: #1f1f1f;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #3a3a3a;
+        }
+
+        .form-title {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: #111;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .btn-group {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-save {
+            background: #4CAF50;
+            color: #fff;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: #555;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/adminapp/adminindex/" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+
+                <a href="/adminapp/adminmodels/" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    Models
+                </a>
+
+                <a href="/adminapp/adminbookings/" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    Bookings
+                </a>
+
+                <a href="/adminapp/adminusers/" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    Users
+                </a>
+
+                <a href="/adminapp/adminfeedback/" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    Feedback
+                </a>
+
+                <a href="/adminapp/admincontact/" class="nav-item">
+                    <span class="nav-icon">📧</span>
+                    Contact
+                </a>
+            </nav>
+        </aside>
+
+  <main class="main-content">
+    <div class="form-container">
+        <h1 class="form-title">Booking Details</h1>
+
+        <div class="card">
+            <table style="width:100%; border-collapse: collapse; color: #fff;">
+                <tbody>
+                    <tr style="border-bottom: 1px solid #444;">
+                        <td style="padding: 10px; font-weight: bold;">Booking ID</td>
+                        <td style="padding: 10px;">BK-{{ 1000|add:booking.id }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #444;">
+                        <td style="padding: 10px; font-weight: bold;">Model Name</td>
+                        <td style="padding: 10px;">{{ booking.model_name }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #444;">
+                        <td style="padding: 10px; font-weight: bold;">Client Name</td>
+                        <td style="padding: 10px;">{{ booking.name }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #444;">
+                        <td style="padding: 10px; font-weight: bold;">Email</td>
+                        <td style="padding: 10px;">{{ booking.email }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #444;">
+                        <td style="padding: 10px; font-weight: bold;">Phone</td>
+                        <td style="padding: 10px;">{{ booking.phone }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #444;">
+                        <td style="padding: 10px; font-weight: bold;">Appointment Date</td>
+                        <td style="padding: 10px;">{{ booking.appointment_date|date:"M d, Y" }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #444;">
+                        <td style="padding: 10px; font-weight: bold;">Appointment Time</td>
+                        <td style="padding: 10px;">{{ booking.appointment_time|time:"H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; font-weight: bold;">Created At</td>
+                        <td style="padding: 10px;">{{ booking.created_at|date:"M d, Y H:i" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'adminbookings' %}" class="btn btn-secondary" style="margin-top:20px;">Back</a>
+    </div>
+</main>
+
+    </div>
+
+</body>
+
+</html>

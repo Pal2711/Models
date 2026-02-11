@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>user Feedback - Models</title>
+  <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+  <link rel="stylesheet" href="/static/assets/css/styles.css">
+  <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <div id="scroll-progress-container">
+    <a href="javascript:void(0)" id="scroll-progress-link">
+      <div id="scroll-progress-bar"></div>
+    </a>
+  </div>
+
+  <div class="main-header-section">
+    <div class="navbar">
+      <!-- Left Logo -->
+      <a href="/">
+        <div class="logo">
+          models<span>.</span>
+        </div>
+      </a>
+
+      <!-- Main Menu -->
+      <ul class="menu">
+        <li class="menu-sub-class"><a href="/model/">Models.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/about/">About</a></li>
+      </ul>
+
+      <!-- Right Section -->
+      <div class="login-section">
+        {% if request.session.userid %}
+        <span class="user-name">
+          Hi, {{ request.session.name }}
+        </span>
+        |
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <div class="mreg-wrapper">
+    <div class="mreg-card">
+
+      <h2 class="mreg-title">User Feedback</h2>
+
+      <!-- Django Messages -->
+      {% if messages %}
+      <div class="messages-container">
+        {% for message in messages %}
+        <p class="alert" style="
+               padding: 15px 0;
+               font-size: 16px;
+               background-color: aquamarine;
+               color: green;
+               margin: 5px 0;
+               padding-left: 15px;               
+           ">
+          {{ message }}
+        </p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Feedback Form -->
+      <form class="mreg-form" method="post">
+        {% csrf_token %}
+
+        <div class="mreg-group">
+    <label class="mreg-label">Full Name *</label>
+    <input type="text"
+           class="mreg-input"
+           name="name"
+           value="{{ request.session.name|default:'' }}"
+           {% if request.session.userid %}readonly{% endif %}
+           required>
+</div>
+
+<div class="mreg-group">
+    <label class="mreg-label">Email Address *</label>
+    <input type="email"
+           class="mreg-input"
+           name="email"
+           value="{{ request.session.email|default:'' }}"
+           {% if request.session.userid %}readonly{% endif %}
+           required>
+</div>
+
+
+
+        <!-- FEEDBACK TYPE -->
+        <div class="mreg-group">
+          <label class="mreg-label">Feedback Type *</label>
+          <select class="mreg-select" name="feedback" required>
+            <option value="">----------</option>
+            <option value="Suggestion">Suggestion</option>
+            <option value="Bug Report">Bug Report</option>
+            <option value="Complaint">Complaint</option>
+            <option value="Appreciation">Appreciation</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- MESSAGE -->
+        <div class="mreg-group">
+          <label class="mreg-label">Your Feedback *</label>
+          <textarea class="mreg-input" rows="4" name="message" required></textarea>
+        </div>
+
+        <button type="submit" class="mreg-submit">
+          SUBMIT FEEDBACK
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <footer class="model-footer">
+    <div class="footer-container">
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4>Social Media</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/rankings/">Ranking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/feedback/">Feedback</a></li>
+        </ul>
+      </div>
+
+      <!-- Inside the Industry -->
+      <div class="footer-col">
+        <h4>Inside the Industry</h4>
+        <ul>
+          <li><a href="/model/">Models</a></li>
+          <li><a href="/creatives/">Creatives</a></li>
+          <li><a href="/fashion/">Fashion</a></li>
+          <li><a href="/beauty/">Beauty</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Model Website. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <script src="/static/assets/js/main.js"></script>
+  <script src="/static/assets/js/cursor-effect.js"></script>
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "flex";
+      document.getElementById("lightbox-img").src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.full_name }} - Admin Panel</title>
+
+    <link rel="stylesheet" href="/static/admin/css/style.css">
+
+    <style>
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-header h1 {
+            font-size: 36px;
+            color: #e5e5e5;
+            margin: 0;
+        }
+
+        .back-btn {
+            background-color: #5a5a5a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #4a4a4a;
+        }
+
+        .profile-content {
+            background: linear-gradient(180deg, #2d2d2d 0%, #1f1f1f 100%);
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid #404040;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background-color: #1a1a1a;
+            border: 1px solid #404040;
+            border-radius: 10px;
+            padding: 15px 20px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #b0b0b0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #e5e5e5;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #e5e5e5;
+            margin-bottom: 15px;
+        }
+
+        .section-content {
+            color: #b0b0b0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* ✅ GALLERY GRID */
+        .model-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .model-images img {
+            width: 100%;
+            height: 840px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #404040;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .model-images {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .model-images {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="admin-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Panel</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/adminapp/adminindex/" class="nav-item">📊 Dashboard</a>
+            <a href="/adminapp/adminmodels/" class="nav-item active">👤 Models</a>
+            <a href="/adminapp/adminbookings/" class="nav-item">📅 Bookings</a>
+            <a href="/adminapp/adminusers/" class="nav-item">👥 Users</a>
+            <a href="/adminapp/adminfeedback/" class="nav-item">💬 Feedback</a>
+            <a href="/adminapp/admincontact/" class="nav-item">📧 Contact</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn btn-secondary logout-btn">Logout</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="profile-container">
+
+            <!-- Header -->
+            <div class="profile-header">
+                <h1>{{ profile.full_name }}</h1>
+                <a href="/adminapp/adminmodels/" class="back-btn">← Back to Models</a>
+            </div>
+
+            <div class="profile-content">
+
+                <!-- BASIC INFO -->
+                <div class="info-grid">
+                    <div class="info-box">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">{{ details.email }}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Gender</div>
+                        <div class="info-value">{{ details.get_gender_display }}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Date of Birth</div>
+                        <div class="info-value">{{ details.date_of_birth }}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Country</div>
+                        <div class="info-value">{{ details.country }}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Agency</div>
+                        <div class="info-value">{{ details.agency }}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Category</div>
+                        <div class="info-value">{{ details.category }}</div>
+                    </div>
+                </div>
+
+                <!-- INTRODUCTION -->
+                <div class="section">
+                    <h2 class="section-title">Introduction</h2>
+                    <p class="section-content">{{ details.introduction }}</p>
+                </div>
+
+                <!-- ABOUT -->
+                <div class="section">
+                    <h2 class="section-title">About</h2>
+                    <p class="section-content">{{ details.about }}</p>
+                </div>
+
+                <!-- STATS -->
+                <div class="info-grid">
+                    <div class="info-box">
+                        <div class="info-label">Instagram Followers</div>
+                        <div class="info-value">{{ details.instagram_followers }}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Years Active</div>
+                        <div class="info-value">{{ details.years_active }}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Runway Shows</div>
+                        <div class="info-value">{{ details.runway_shows }}</div>
+                    </div>
+
+                    <div class="info-box" style="grid-column:1/-1;">
+                        <div class="info-label">Awards</div>
+                        <div class="info-value">
+                            {{ details.awards|default:"No awards listed" }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GALLERY -->
+                <div class="section">
+                    <h2 class="section-title">Gallery</h2>
+
+                    <div class="model-images">
+                        {% if details.image_1 %}<img src="{{ details.image_1.url }}">{% endif %}
+                        {% if details.image_2 %}<img src="{{ details.image_2.url }}">{% endif %}
+                        {% if details.image_3 %}<img src="{{ details.image_3.url }}">{% endif %}
+                        {% if details.image_4 %}<img src="{{ details.image_4.url }}">{% endif %}
+                        {% if details.image_5 %}<img src="{{ details.image_5.url }}">{% endif %}
+                        {% if details.image_6 %}<img src="{{ details.image_6.url }}">{% endif %}
+                        {% if details.image_7 %}<img src="{{ details.image_7.url }}">{% endif %}
+                        {% if details.image_8 %}<img src="{{ details.image_8.url }}">{% endif %}
+                        {% if details.image_9 %}<img src="{{ details.image_9.url }}">{% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

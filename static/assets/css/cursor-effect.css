@@ -1,0 +1,37 @@
+/* ===== ULTRA DARK CURSOR ===== */
+
+body {
+  cursor: none !important;
+}
+
+/* Main Ball */
+.custom-cursor-ball {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  background: #000000; /* PURE BLACK */
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow:
+    0 0 15px #000,
+    0 0 30px #000,
+    0 0 60px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  z-index: 999999;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+/* Click */
+.custom-cursor-ball.is-clicking {
+  transform: scale(0.6);
+}
+
+/* Hover */
+.custom-cursor-ball.is-link-hover {
+  transform: scale(1.8);
+  border-color: #333;
+  box-shadow:
+    0 0 20px #000,
+    0 0 40px #000,
+    0 0 80px rgba(0, 0, 0, 1);
+}

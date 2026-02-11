@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Booking</title>
+    <link rel="stylesheet" href="/static/admin/css/style.css">
+
+    <style>
+        /* ---------- CARD ---------- */
+        .card {
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 30px auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+
+        .card h2 {
+            color: #ffffff;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* ---------- FORM ---------- */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            background: #121212;
+            border: 1px solid #3a3a55;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control::placeholder {
+            color: #9a9a9a;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108,92,231,0.25);
+        }
+
+        /* ---------- BUTTON ---------- */
+        .btn-save {
+            margin-top: 10px;
+            padding: 13px;
+            background: linear-gradient(135deg, #6c5ce7, #4834d4);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(108,92,231,0.35);
+        }
+
+        /* ---------- HEADER ---------- */
+        .content-header h2 {
+            color: #ffffff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+<div class="admin-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/adminapp/adminindex/" class="nav-item">📊 Dashboard</a>
+            <a href="/adminapp/adminmodels/" class="nav-item">👤 Models</a>
+            <a href="/adminapp/adminbookings/" class="nav-item">📅 Bookings</a>
+            <a href="/adminapp/adminusers/" class="nav-item">👥 Users</a>
+            <a href="/adminapp/adminfeedback/" class="nav-item">💬 Feedback</a>
+            <a href="/adminapp/admincontact/" class="nav-item">📧 Contact</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="content-header">
+            <h2>Add Booking</h2>
+        </header>
+
+        <div class="card">
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <select name="model_profile" class="form-control" required>
+                    <option value="" disabled selected>Select Model</option>
+                    {% for model in models %}
+                        <option value="{{ model.id }}">{{ model }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="text" name="name" class="form-control"
+                       placeholder="Customer Name" required>
+
+                <input type="email" name="email" class="form-control"
+                       placeholder="Email Address" required>
+
+                <input type="text" name="phone" class="form-control"
+                       placeholder="Phone Number" required>
+
+                <input type="date" name="appointment_date"
+                       class="form-control" required>
+
+                <input type="time" name="appointment_time"
+                       class="form-control" required>
+
+                <button type="submit" class="btn-save">
+                    Save Booking
+                </button>
+            </form>
+        </div>
+
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Models</title>
+  <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+  <link rel="stylesheet" href="/static/assets/css/styles.css">
+  <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <div id="scroll-progress-container">
+    <a href="javascript:void(0)" id="scroll-progress-link">
+      <div id="scroll-progress-bar"></div>
+    </a>
+  </div>
+
+  <div class="main-header-section">
+    <div class="navbar">
+      <!-- Left Logo -->
+      <a href="/">
+        <div class="logo">
+          models<span>.</span>
+        </div>
+      </a>
+
+      <!-- Main Menu -->
+      <ul class="menu">
+        <li class="menu-sub-class"><a href="/model/">Models.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/about/">About</a></li>
+      </ul>
+
+      <!-- Right Section -->
+      <div class="login-section">
+        {% if request.session.userid %}
+        <span class="user-name">
+          Hi, {{ request.session.name }}
+        </span>
+        |
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+    <hr>
+  </div>
+
+
+  <section class="auth-section">
+    <div class="auth-box">
+
+      <h2 class="auth-title">Login</h2>
+
+      <form class="auth-form" method="post">
+        {% csrf_token %}
+
+        {% if error %}
+        {% if error %}
+        <p style="
+    color: #d32f2f;
+    background-color: #fdecea;
+    border: 1px solid #f5c6cb;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    position: relative;
+">
+          {{ error }}
+          <span onclick="
+        const el = this.parentElement;
+        el.style.transition = 'opacity 0.3s';
+        el.style.opacity = 0;
+        setTimeout(function(){ el.style.display='none'; }, 300);
+    " style="
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+    ">&times;</span>
+        </p>
+        {% endif %}
+
+        {% endif %}
+
+        <div class="auth-field">
+          <label>Name</label>
+          <input type="text" name="name" placeholder="Name" required>
+        </div>
+
+        <div class="auth-field">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <button type="submit" class="auth-btn">Login</button>
+
+        <p class="auth-footer">
+          Don't have an account?
+          <a href="/signup/">Sign up</a>
+        </p>
+      </form>
+
+
+    </div>
+  </section>
+
+
+  <footer class="model-footer">
+    <div class="footer-container">
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4>Social Media</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/rankings/">Ranking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/feedback/">Feedback</a></li>
+
+
+
+        </ul>
+      </div>
+
+      <!-- Inside the Industry -->
+      <div class="footer-col">
+        <h4>Inside the Industry</h4>
+        <ul>
+          <li><a href="/model/">Models</a></li>
+          <li><a href="/creatives/">Creatives</a></li>
+          <li><a href="/fashion/">Fashion</a></li>
+          <li><a href="/beauty/">Beauty</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Model Website. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <script src="/static/assets/js/main.js"></script>
+  <script src="/static/assets/js/cursor-effect.js"></script>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "flex";
+      document.getElementById("lightbox-img").src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>

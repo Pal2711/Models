@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Models - Models</title>
+  <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+  <link rel="stylesheet" href="/static/assets/css/styles.css">
+  <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .feature-card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-img {
+      width: 100%;
+      height: 550px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover .feature-img {
+      transform: scale(1.1);
+    }
+
+    .feature-name {
+      margin-top: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .feature-card:hover .feature-name {
+      color: #ff4081;
+      /* pink color on hover */
+      font-weight: bold;
+    }
+
+    .profile-card-link {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scroll-progress-container">
+    <a href="javascript:void(0)" id="scroll-progress-link">
+      <div id="scroll-progress-bar"></div>
+    </a>
+  </div>
+
+  <div class="main-header-section">
+    <div class="navbar">
+      <!-- Left Logo -->
+      <a href="/">
+        <div class="logo">
+          models<span>.</span>
+        </div>
+      </a>
+
+      <!-- Main Menu -->
+      <ul class="menu">
+        <li class="menu-sub-class"><a href="/model/">Models.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/about/">About</a></li>
+      </ul>
+
+      <!-- Right Section -->
+      <div class="login-section">
+        {% if request.session.userid %}
+        <span class="user-name">
+          Hi, {{ request.session.name }}
+        </span>
+        |
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <header class="page-header">
+    <h1>Models</h1>
+  </header>
+
+  <section class="feature-section">
+    <div class="feature-container">
+      <div class="row">
+        {% for profile in profiles %}
+        <div class="col-md-4 mb-4">
+          <a href="{% url 'model-profile' profile.id %}" style="text-decoration: none; color: inherit;">
+            <div class="feature-card"
+              style="border: 1px solid #ddd; padding: 15px; text-align: center; border-radius: 5px;">
+              {% if profile.profile_image %}
+              <img src="{{ profile.profile_image.url }}" alt="{{ profile.full_name }}"
+                style="width: 100%; height: 550px; object-fit: cover; border-radius: 5px;">
+              {% else %}
+              <img src="/static/assets/img/default.jpg" alt="{{ profile.full_name }}"
+                style="width: 100%; height: 550px; object-fit: cover; border-radius: 5px;">
+              {% endif %}
+              <h3 style="margin-top: 10px; font-size: 30px; ">{{ profile.full_name }}</h3>
+
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <footer class="model-footer">
+    <div class="footer-container">
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4>Social Media</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/rankings/">Ranking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/feedback/">Feedback</a></li>
+        </ul>
+      </div>
+
+      <!-- Inside the Industry -->
+      <div class="footer-col">
+        <h4>Inside the Industry</h4>
+        <ul>
+          <li><a href="/model/">Models</a></li>
+          <li><a href="/creatives/">Creatives</a></li>
+          <li><a href="/fashion/">Fashion</a></li>
+          <li><a href="/beauty/">Beauty</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Model Website. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <script src="/static/assets/js/main.js"></script>
+  <script src="/static/assets/js/cursor-effect.js"></script>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "flex";
+      document.getElementById("lightbox-img").src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/admin/css/style.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/adminapp/adminindex/" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+
+                <a href="/adminapp/adminmodels/" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    Models
+                </a>
+
+                <a href="/adminapp/adminbookings/" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    Bookings
+                </a>
+
+                <a href="/adminapp/adminusers/" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    Users
+                </a>
+
+                <a href="/adminapp/adminfeedback/" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    Feedback
+                </a>
+
+                <a href="/adminapp/admincontact/" class="nav-item">
+                    <span class="nav-icon">📧</span>
+                    Contact
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="{% url 'adminlogout' %}" class="btn btn-secondary logout-btn">
+                    Logout
+                </a>
+            </div>
+
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <header class="content-header">
+                <h1>Dashboard</h1>
+                <div class="user-info">
+                    <span>Admin</span>
+                </div>
+            </header>
+
+            <!-- STATS -->
+            <div class="dashboard-stats">
+
+                <div class="stat-card">
+                    <div class="stat-icon">👤</div>
+                    <div class="stat-info">
+                        <h3>{{ total_models }}</h3>
+                        <p>Total Models</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3>{{ total_users }}</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <h3>{{ total_appointments }}</h3>
+                        <p>Total Appointment</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-info">
+                        <h3>{{ total_feedback }}</h3>
+                        <p>Total Feedback</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📧</div>
+                    <div class="stat-info">
+                        <h3>{{ total_contact }}</h3>
+                        <p>Total Contacts</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RECENT ACTIVITY -->
+            <div class="dashboard-content">
+                <div class="card">
+                    <h2>Recent Activity</h2>
+
+                    <div class="activity-list">
+                        {% for act in activities %}
+                        <div class="activity-item">
+                            <strong>{{ act.type }}:</strong> {{ act.message }}
+                            <span class="activity-date">{{ act.date|date:"M d, Y H:i" }}</span>
+                        </div>
+                        {% empty %}
+                        <div class="activity-item">
+                            <strong>No Activity:</strong> No recent activity found
+                            <span class="activity-date">--</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- JS -->
+    <script src="/static/admin/js/app.js"></script>
+    <script src="/static/admin/js/dashboard.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Feedback</title>
+    <link rel="stylesheet" href="/static/admin/css/style.css">
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/adminapp/adminindex/" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+
+                <a href="/adminapp/adminmodels/" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    Models
+                </a>
+
+                <a href="/adminapp/adminbookings/" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    Bookings
+                </a>
+
+                <a href="/adminapp/adminusers/" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    Users
+                </a>
+
+                <a href="/adminapp/adminfeedback/" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    Feedback
+                </a>
+
+                <a href="/adminapp/admincontact/" class="nav-item">
+                    <span class="nav-icon">📧</span>
+                    Contact
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Feedback Management</h1>
+                <a href="{% url 'admin_add_feedback' %}" class="btn btn-primary">
+                    + Add New Feedback
+                </a>
+            </header>
+
+            <div class="card">
+                <div class="table-container" style="overflow-x:auto;">
+                    <table class="data-table"
+                        style="width:100%; border-collapse:collapse; font-family:Arial, sans-serif;">
+                        <thead style="background-color:#f2f2f2;">
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Feedback Type</th>
+                                <th>Feedback</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fb in feedbacks %}
+                            <tr style="border-bottom:1px solid #eee;">
+                                <td>fb-{{ fb.id }}</td>
+                                <td>{{ fb.name }}</td>
+                                <td>{{ fb.email }}</td>
+                                <td>{{ fb.feedback }}</td>
+                                <td>{{ fb.message }}</td>
+                                <td>{{ fb.created|date:"M d, Y" }}</td>
+                                <td>
+                                    <div class="action-buttons" style="display:flex; gap:5px;">
+                                        <!-- Edit button (optional functionality) -->
+                                        <a href="{% url 'edit_feedback' fb.id %}" class="btn btn-primary btn-sm" style="text-decoration: none;""> 
+                                            Edit
+                                        </a>
+                                        <!-- Delete button -->
+                                        <a href="{% url 'delete_feedback' fb.id %}" class="btn btn-danger btn-sm me-2"
+                                        style="text-decoration: none;"
+                                            onclick="return confirm('Are you sure you want to delete this feedback?');">
+                                            Delete
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding:15px; font-style:italic; color:#555;">
+                                    No feedback found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

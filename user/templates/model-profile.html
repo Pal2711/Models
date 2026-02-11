@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ profile.full_name }} - Models</title>
+
+  <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+  <link rel="stylesheet" href="/static/assets/css/styles.css">
+  <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @keyframes popupFade {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Optional: smooth transition for blur */
+    #loginPopup {
+      transition: backdrop-filter 0.3s ease, background 0.3s ease;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="scroll-progress-container">
+    <a href="javascript:void(0)" id="scroll-progress-link">
+      <div id="scroll-progress-bar"></div>
+    </a>
+  </div>
+
+  <div class="main-header-section">
+    <div class="navbar">
+      <!-- Left Logo -->
+      <a href="/">
+        <div class="logo">
+          models<span>.</span>
+        </div>
+      </a>
+
+      <!-- Main Menu -->
+      <ul class="menu">
+        <li class="menu-sub-class"><a href="/model/">Models.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/about/">About</a></li>
+      </ul>
+
+      <!-- Right Section -->
+      <div class="login-section">
+        {% if request.session.userid %}
+        <span class="user-name">
+          Hi, {{ request.session.name }}
+        </span>
+        |
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  {% if not request.session.userid %}
+  <!-- Login Popup with blurred background -->
+  <div id="loginPopup" style="
+      display:flex;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.3);
+      backdrop-filter: blur(6px);
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+  ">
+    <div style="
+        background:#fff;
+        padding:40px;
+        border-radius:12px;
+        text-align:center;
+        animation:popupFade .3s;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    ">
+      <h2 style="color:#d32f2f;">Login Required</h2>
+      <p style="margin: 15px 0 25px 0;">
+        You need to login first to access this page.
+      </p>
+      <a href="{% url 'login' %}" style="
+          padding:12px 28px;
+          background:#d32f2f;
+          color:#fff;
+          text-decoration:none;
+          border-radius:6px;
+          font-weight:bold;
+      ">Login Now</a>
+    </div>
+  </div>
+  <script>
+    // Disable scrolling when popup is active
+    document.body.style.overflow = 'hidden';
+  </script>
+  {% endif %}
+
+  <section class="model-detail-section">
+    <div class="model-detail-container">
+      <div class="row">
+
+        <!-- MAIN IMAGE -->
+        <div class="col-md-6">
+          <div class="model-detail-image">
+            {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}">
+            {% else %}
+            <img src="/static/assets/img/default.jpg">
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="col-md-6">
+          <div class="model-detail-info">
+            <h2 class="model-name">{{ profile.name }}</h2>
+
+            <div class="model-info-grid">
+              <div class="model-info-item"><span>Email :</span> {{ details.email }}</div>
+              <div class="model-info-item"><span>Gender :</span> {{ details.gender }}</div>
+              <div class="model-info-item"><span>DOB :</span> {{ details.date_of_birth }}</div>
+              <div class="model-info-item"><span>Country :</span> {{ details.country }}</div>
+              <div class="model-info-item"><span>Agency :</span> {{ details.agency }}</div>
+              <div class="model-info-item"><span>Category :</span> {{ details.category }}</div>
+            </div>
+
+            <div class="model-text-block">
+              <h3>Introduction</h3>
+              <p>{{ details.introduction }}</p>
+            </div>
+
+            <div class="model-text-block">
+              <h3>About</h3>
+              <p>{{ details.about }}</p>
+            </div>
+
+            <div class="model-info-grid">
+              <div class="model-info-item"><span>Instagram Followers :</span> {{ details.instagram_followers }}</div>
+              <div class="model-info-item"><span>Years Active :</span> {{ details.years_active }}</div>
+              <div class="model-info-item"><span>Runway Shows :</span> {{ details.runway_shows }}</div>
+
+              {% if details.awards %}
+              <div class="model-info-item"><span>Awards :</span> {{ details.awards }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="model-book-btn-wrapper">
+            <a href="{% url 'book_appointment' profile.id %}">
+              <button class="model-book-btn">
+                <i class="fa-solid fa-calendar-check"></i>
+                Book Appointment
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;">
+
+        {% if details.image_1 %}
+        <div class="model-slide">
+          <img src="{{ details.image_1.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_2 %}
+        <div class="model-slide">
+          <img src="{{ details.image_2.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_3 %}
+        <div class="model-slide">
+          <img src="{{ details.image_3.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_4 %}
+        <div class="model-slide">
+          <img src="{{ details.image_4.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_5 %}
+        <div class="model-slide">
+          <img src="{{ details.image_5.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_6 %}
+        <div class="model-slide" >
+          <img src="{{ details.image_6.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_7 %}
+        <div class="model-slide">
+          <img src="{{ details.image_7.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_8 %}
+        <div class="model-slide">
+          <img src="{{ details.image_8.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+        {% if details.image_9 %}
+        <div class="model-slide">
+          <img src="{{ details.image_9.url }}" style="width:100%; height:800px; object-fit:cover; border-radius:8px;">
+        </div>
+        {% endif %}
+
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="model-footer">
+    <div class="footer-container">
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4>Social Media</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/rankings/">Ranking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/feedback/">Feedback</a></li>
+        </ul>
+      </div>
+
+      <!-- Inside the Industry -->
+      <div class="footer-col">
+        <h4>Inside the Industry</h4>
+        <ul>
+          <li><a href="/model/">Models</a></li>
+          <li><a href="/creatives/">Creatives</a></li>
+          <li><a href="/fashion/">Fashion</a></li>
+          <li><a href="/beauty/">Beauty</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Model Website. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/static/assets/js/main.js"></script>
+  <script src="/static/assets/js/cursor-effect.js"></script>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "flex";
+      document.getElementById("lightbox-img").src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>

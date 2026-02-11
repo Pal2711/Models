@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking - Models</title>
+  <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+  <link rel="stylesheet" href="/static/assets/css/styles.css">
+  <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <div id="scroll-progress-container">
+    <a href="javascript:void(0)" id="scroll-progress-link">
+      <div id="scroll-progress-bar"></div>
+    </a>
+  </div>
+
+  <div class="main-header-section">
+    <div class="navbar">
+      <!-- Left Logo -->
+      <a href="/">
+        <div class="logo">
+          models<span>.</span>
+        </div>
+      </a>
+
+      <!-- Main Menu -->
+      <ul class="menu">
+        <li class="menu-sub-class"><a href="/model/">Models.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="/about/">About</a></li>
+      </ul>
+
+      <!-- Right Section -->
+      <div class="login-section">
+        {% if request.session.userid %}
+        <span class="user-name">
+          Hi, {{ request.session.name }}
+        </span>
+        |
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <!-- Models.com Rankings Section -->
+  <section class="models-rankings">
+    <div class="container">
+      <h1>Models.com Rankings</h1>
+      <h3>WOMEN</h3>
+      <div class="rankings-grid">
+        <!-- Ranking Items -->
+        <div class="ranking-item"><img src="/static/assets/img/renking1.jpg" alt="Model of the Year Awards">
+          <p>MODEL OF THE YEAR AWARDS</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking2.jpg" alt="Trending">
+          <p>TRENDING</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking3.jpg" alt="Legends">
+          <p>LEGENDS</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking4.jpg" alt="Industry Icons">
+          <p>INDUSTRY ICONS</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking5.jpg" alt="New Supers">
+          <p>NEW SUPERS</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking6.jpg" alt="The Money List">
+          <p>THE MONEY LIST</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking7.jpg" alt="Top 50 Models">
+          <p>TOP 50 MODELS</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/socialmeia8.jpg" alt="The Hot List">
+          <p>THE HOT LIST</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking9.jpg" alt="Runway">
+          <p>RUNWAY</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking10.jpg" alt="Social">
+          <p>SOCIAL</p>
+        </div>
+        <div class="ranking-item"><img src="/static/assets/img/renking11.jpg" alt="Top Newcomers">
+          <p>TOP NEWCOMERS</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="model-footer">
+    <div class="footer-container">
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4>Social Media</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/rankings/">Ranking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/feedback/">Feedback</a></li>
+
+
+
+        </ul>
+      </div>
+
+      <!-- Inside the Industry -->
+      <div class="footer-col">
+        <h4>Inside the Industry</h4>
+        <ul>
+          <li><a href="/model/">Models</a></li>
+          <li><a href="/creatives/">Creatives</a></li>
+          <li><a href="/fashion/">Fashion</a></li>
+          <li><a href="/beauty/">Beauty</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Model Website. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <script src="/static/assets/js/main.js"></script>
+  <script src="/static/assets/js/cursor-effect.js"></script>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "flex";
+      document.getElementById("lightbox-img").src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>

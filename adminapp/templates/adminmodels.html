@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Models</title>
+    <link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/adminapp/adminindex/" class="nav-item">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+
+                <a href="/adminapp/adminmodels/" class="nav-item">
+                    <span class="nav-icon">👤</span> Models
+                </a>
+
+                <a href="/adminapp/adminbookings/" class="nav-item">
+                    <span class="nav-icon">📅</span> Bookings
+                </a>
+
+                <a href="/adminapp/adminusers/" class="nav-item">
+                    <span class="nav-icon">👥</span> Users
+                </a>
+
+                <a href="/adminapp/adminfeedback/" class="nav-item">
+                    <span class="nav-icon">💬</span> Feedback
+                </a>
+
+                <a href="/adminapp/admincontact/" class="nav-item">
+                    <span class="nav-icon">📧</span> Contact
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary logout-btn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header class="content-header">
+                <h1>Models Management</h1>
+                <a href="/adminapp/adminadd-model/" class="btn btn-primary">
+                    + Add New Model
+                </a>
+            </header>
+
+            <div class="card">
+                <div class="table-container">
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for model in models %}
+                            <tr>
+                                <td>{{ model.id }}</td>
+
+                                <td>
+                                    {% if model.profile_image %}
+                                    <img src="{{ model.profile_image.url }}"
+                                        style="width:200px;height:220px;object-fit:cover;">
+                                    {% else %}
+                                    <span>No Image</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ model.full_name }}</td>
+
+                                <td>
+                                    <a href="{% url 'adminmodeldetail' model.id %}"
+                                        style="padding: 10px 14px;background: #4f46e5;color: #fff;text-decoration: none;border-radius: 5px;font-size: 14px;margin: 0 10px;">
+                                        View
+                                    </a>
+
+                                    <a href="{% url 'adminmodeledit' model.id %}" class="btn btn-primary btn-sm"
+                                        style="margin-right: 10px; text-decoration: none;">
+                                        Edit
+                                    </a>
+
+                                    <a href="{% url 'delete_model' model.id %}" class="btn btn-danger btn-sm me-2"
+                                        style="text-decoration: none;">
+                                        Delete
+                                    </a>
+
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" style="text-align:center;">
+                                    No models found
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="{% static 'admin/js/app.js' %}"></script>
+</body>
+
+</html>

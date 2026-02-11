@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Models</title>
+  <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+  <link rel="stylesheet" href="/static/assets/css/styles.css">
+  <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <div id="scroll-progress-container">
+    <a href="javascript:void(0)" id="scroll-progress-link">
+      <div id="scroll-progress-bar"></div>
+    </a>
+  </div>
+
+  <div class="main-header-section">
+    <div class="navbar">
+      <!-- Left Logo -->
+      <a href="/">
+        <div class="logo">
+          models<span>.</span>
+        </div>
+      </a>
+
+      <!-- Main Menu -->
+      <ul class="menu">
+        <li class="menu-sub-class"><a href="model/">Models.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        <li class="menu-sub-class"><a href="about/">About</a></li>
+
+      </ul>
+
+      <!-- Right Section -->
+      <div class="login-section">
+        {% if request.session.userid %}
+        <span class="user-name">
+          Hi, {{ request.session.name }}
+        </span>
+        |
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+
+
+    </div>
+    <hr>
+  </div>
+
+  <div class="feature-section">
+
+    <!-- Image Wrapper -->
+    <div class="slider">
+      <!-- Slide 1 -->
+      <div class="feature-slide active">
+        <div class="feature-image">
+          <img src="/static/assets/img/model.jpg" alt="Model 1">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">news</span>
+          <h2 class="feature-title">Model of the Year Awards 2025</h2>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="feature-slide">
+        <div class="feature-image">
+          <img src="/static/assets/img/model2.jpg" alt="Model 2">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">interviews</span>
+          <h2 class="feature-title">The Graduates: Jiahui Zhang</h2>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="feature-slide">
+        <div class="feature-image">
+          <img src="/static/assets/img/model3.jpg" alt="Model 3">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">interviews</span>
+          <h2 class="feature-title">The Graduates: Libby Taverner</h2>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="feature-slide">
+        <div class="feature-image">
+          <img src="/static/assets/img/model4.jpg" alt="Model 3">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">interviews</span>
+          <h2 class="feature-title">The Graduates: Rosalieke Fuchs</h2>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="feature-slide">
+        <div class="feature-image">
+          <img src="/static/assets/img/model5.jpg" alt="Model 3">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">Lifestyle</span>
+          <h2 class="feature-title">The Graduates: Gaye Serigne</h2>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="feature-slide">
+        <div class="feature-image">
+          <img src="/static/assets/img/model6.jpg" alt="Model 3">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">interviews</span>
+          <h2 class="feature-title">Morning Routines of Models</h2>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="feature-slide">
+        <div class="feature-image">
+          <img src="/static/assets/img/model8.jpg" alt="Model 3">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">interviews</span>
+          <h2 class="feature-title">Supermodel Adut Akech Steps Into A New Era</h2>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="feature-slide">
+        <div class="feature-image">
+          <img src="/static/assets/img/model1.jpg" alt="Model 3">
+        </div>
+        <div class="feature-content">
+          <span class="feature-category">Lifestyle</span>
+          <h2 class="feature-title">Supermodel Adut Akech Steps Into<br>
+            A New Era</h2>
+        </div>
+      </div>
+
+      <!-- Slider Dots -->
+      <div class="feature-dots">
+        <span class="dot active" onclick="currentSlide(0)"></span>
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+        <span class="dot" onclick="currentSlide(5)"></span>
+        <span class="dot" onclick="currentSlide(6)"></span>
+        <span class="dot" onclick="currentSlide(7)"></span>
+      </div>
+    </div>
+  </div>
+
+  <!--Body section end-->
+
+  <!--Trending section start-->
+  <div class="trending-section">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="trending-header">
+        <h2 class="trending-title">Trending Models</h2>
+      </div>
+
+      <!-- Slider Wrapper -->
+      <div class="trending-slider-wrapper">
+
+
+        <!-- Cards Container -->
+        <div class="trending-cards" id="trendingSlider">
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding1.jpg" alt="kendall jenner" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>kendall jenner</h4>
+            <p>Model </p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding2.jpg" alt="Charleen Weiss" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>Charleen Weiss</h4>
+            <p>Actress</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding3.jpg" alt="harnaaz kaur" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>harnaaz kaur</h4>
+            <p>Model</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding4.jpg" alt="Emily Ratajkowski" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>Emily Ratajkowski</h4>
+            <p>Actress</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding5.jpg" alt="vivie vons" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>vivievons</h4>
+            <p>Influencer</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding6.jpg" alt="Maia Cotton" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>Maia Cotton</h4>
+            <p>Model</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding7.jpg" alt="scarlett johansson" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>scarlett johansson</h4>
+            <p>Influencer</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding8.jpg" alt="hailee steinfeldclass=" open-img"
+              onclick="openLightbox(this.src)"">
+            <h4>hailee steinfeld</h4>
+            <p>Actress</p>
+          </div>
+
+
+
+          <div class=" trend-card">
+            <img src="/static/assets/img/treding1.jpg" alt="kendall jenner" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>kendall jenner</h4>
+            <p>Model </p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding2.jpg" alt="Charleen Weiss" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>Charleen Weiss</h4>
+            <p>Actress</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding3.jpg" alt="harnaaz kaur" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>harnaaz kaur</h4>
+            <p>Model</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding4.jpg" alt="Emily Ratajkowski" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>Emily Ratajkowski</h4>
+            <p>Actress</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding5.jpg" alt="vivie vons" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>vivievons</h4>
+            <p>Influencer</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding6.jpg" alt="Maia Cotton" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>Maia Cotton</h4>
+            <p>Model</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding7.jpg" alt="scarlett johansson" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>scarlett johansson</h4>
+            <p>Influencer</p>
+          </div>
+
+          <div class="trend-card">
+            <img src="/static/assets/img/treding8.jpg" alt="hailee steinfeld" class="open-img"
+              onclick="openLightbox(this.src)">
+            <h4>hailee steinfeld</h4>
+            <p>Actress</p>
+          </div>
+
+
+
+        </div>
+
+
+        <!-- Slider Dots -->
+      </div>
+
+    </div>
+  </div>
+  <!--Trending section end-->
+
+  <!-- socialmeia section start -->
+  <section class="fashion-news-section">
+    <div class="container">
+      <div class="fashion-news-header">
+        <h2 class="fashion-news-title">Latest Fashion & Industry News</h2>
+        <p class="section-subtitle">Highlights from models, beauty, and global fashion weeks</p>
+      </div>
+
+      <div class="fashion-grid">
+
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia2.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">News</span>
+          <h3 class="fashion-title">Met Gala Co-Chairs & Model of the Year Announced</h3>
+        </article>
+
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia3.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">Beauty</span>
+          <h3 class="fashion-title">Punk-Inspired Beauty Takes Over the Runway</h3>
+        </article>
+
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia4.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">News</span>
+          <h3 class="fashion-title">Model of the Year Awards: Highlights & Winners</h3>
+        </article>
+
+        <!-- Row 2 (NEW) -->
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia5.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">Newfaces</span>
+          <h3 class="fashion-title">New Faces From Paris to Mumbai</h3>
+        </article>
+
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia6.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">News</span>
+          <h3 class="fashion-title">Rising Models Making Global Waves</h3>
+        </article>
+
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia8.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">Newfaces</span>
+          <h3 class="fashion-title">From Bali to Tbilisi: Global Model Roots</h3>
+        </article>
+
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia9.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">Beauty</span>
+          <h3 class="fashion-title">From Brazilian from Lisbon, Portugal</h3>
+        </article>
+
+
+        <article class="fashion-card">
+          <div class="fashion-image">
+            <img src="/static/assets/img/socialmeia10.jpg" alt="" class="open-img" onclick="openLightbox(this.src)">
+          </div>
+          <span class="fashion-category">Newfaces</span>
+          <h3 class="fashion-title">From Polish from Warsaw, Poland </h3>
+        </article>
+      </div>
+    </div>
+
+  </section>
+  <!-- socialmeia section end -->
+
+  <!--MDC section start-->
+  <section class="mdc-social">
+    <div class="container">
+      <h2>MDC on Social</h2>
+
+      <div class="mdc-slider">
+        <button class="nav-arrow prev">&#10094;</button>
+
+        <div class="mdc-track" id="mdcTrack">
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc1.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc2.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc3.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc4.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc5.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc6.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc7.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc8.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc9.mp4" muted loop playsinline></video></div>
+          <div class="mdc-card"><video src="/static/assets/img/video/mdc10.mp4" muted loop playsinline></video></div>
+        </div>
+
+        <!-- VIDEO POPUP MODAL -->
+        <div id="videoPopup" class="video-popup">
+          <div class="video-popup-content">
+            <span class="video-close">&times;</span>
+            <video id="popupVideo" controls></video>
+          </div>
+        </div>
+
+        <button class="nav-arrow next">&#10095;</button>
+      </div>
+
+      <a href="https://www.instagram.com/modelsdot/" class="model-btn">WATCH IT ON INSTAGRAM</a>
+    </div>
+  </section>
+  <!--MDC section end-->
+
+  <!--Discover Models section start-->
+  <section class="discover-section">
+    <!-- Container added -->
+    <div class="container">
+      <!-- Discover Models -->
+      <div class="discover-column" id="models">
+        <div class="discover-header">
+          <h2>Discover Models</h2>
+        </div>
+
+        <ul class="discover-list row">
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/charleenweiss9.jpg" alt="Charleen Weiss" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>Charleen<br> Weiss</h4>
+                <h2>Actress</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/dwayne-johnson.jpg" alt="Dwayne Johnson" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>Dwayne
+                  <br> Johnson
+                </h4>
+                <h2>Actor</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/hailee-steinfeld4.jpg" alt="hailee steinfeld" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>hailee<br> steinfeld</h4>
+                <h2>Singer</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/Hrithikroshan10.jpeg" alt="Hrithik Roshan" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>Hrithik<br> Roshan</h4>
+                <h2>Actor</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/hailey-baldwin8.jpg" alt="hailey baldwin" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>hailey<br> baldwin</h4>
+                <h2>Model</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/harnaaz-kaur9.jpg" alt="harnaaz kaur" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>harnaaz<br>
+                  kaur</h4>
+                <h2>Model</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/kaia-gerber6.jpg" alt="kaia gerber" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>kaia
+                  <br>gerber
+                </h4>
+                <h2>Actress</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/kendall-jenner8.jpg" alt="kendall jenner" class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>kendall <br> jenner</h4>
+                <h2>Model</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/lili8.jpg" alt="lili Reinhart " class="open-img"
+                onclick="openLightbox(this.src)">
+              <div class="discover-list-text">
+                <h4>lili<br> Reinhart </h4>
+                <h2>Model</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+          <li class="discover-item col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="item-inner">
+              <img src="/static/assets/img/scarlett-johansson7.jpg" alt="scarlett johansson" class="open-img"
+                onclick="openLightbox(this.src)">
+
+              <div class="discover-list-text">
+                <h4>scarlett <br>johansson</h4>
+                <h2>Actress</h2>
+              </div>
+            </div>
+          </li>
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+
+          <!-- Lightbox -->
+          <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img">
+          </div>
+
+        </ul>
+
+        <a href="model/" class="model-btn">Explore All Models</a>
+      </div>
+    </div>
+  </section>
+  <!--Discover Models section end-->
+
+  <!-- Footer Section Start -->
+  <footer class="model-footer">
+    <div class="footer-container">
+
+      <!-- Social Media -->
+      <div class="footer-col">
+        <h4>Social Media</h4>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="rankings/">Ranking</a></li>
+          <li><a href="about/">About</a></li>
+          <li><a href="contact/">Contact</a></li>
+          <li><a href="feedback/">Feedback</a></li>
+
+
+
+        </ul>
+      </div>
+
+      <!-- Inside the Industry -->
+      <div class="footer-col">
+        <h4>Inside the Industry</h4>
+        <ul>
+          <li><a href="model/">Models</a></li>
+          <li><a href="creatives/">Creatives</a></li>
+          <li><a href="fashion/">Fashion</a></li>
+          <li><a href="beauty/">Beauty</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Model Website. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <script src="/static/assets/js/main.js"></script>
+  <script src="/static/assets/js/cursor-effect.js"></script>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "flex";
+      document.getElementById("lightbox-img").src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+
+</body>
+
+</html>

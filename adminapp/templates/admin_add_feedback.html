@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Feedback</title>
+    <link rel="stylesheet" href="/static/admin/css/style.css">
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/adminapp/adminindex/" class="nav-item">📊 Dashboard</a>
+                <a href="/adminapp/adminmodels/" class="nav-item">👤 Models</a>
+                <a href="/adminapp/adminbookings/" class="nav-item">📅 Bookings</a>
+                <a href="/adminapp/adminusers/" class="nav-item">👥 Users</a>
+                <a href="/adminapp/adminfeedback/" class="nav-item">💬 Feedback</a>
+                <a href="/adminapp/admincontact/" class="nav-item">📧 Contact</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h2>Add Feedback</h2>
+            </header>
+
+            <div class="card" style="padding:20px; margin-top:20px;">
+                <form method="POST" style="display:flex; flex-direction:column; gap:15px;">
+                    {% csrf_token %}
+
+                    <input type="text" name="name" required placeholder="Name" style="padding:12px;
+                  background:#121212;
+                  border:1px solid #3a3a55;
+                  border-radius:6px;
+                  color:#fff;
+                     margin-top: 10px;   
+
+                  font-size:14px; ">
+
+                    <input type="email" name="email" required placeholder="Email" style="padding:12px;
+                  background:#121212;
+                  border:1px solid #3a3a55;
+                  border-radius:6px;
+                  color:#fff;
+                     margin-top: 10px;   
+
+                  font-size:14px; ">
+
+                    <select name="feedback" required style="padding:12px;
+                   background:#121212;
+                   border:1px solid #3a3a55;
+                   border-radius:6px;
+                   color:#fff;
+                     margin-top: 10px;   
+
+                   font-size:14px; ">
+                        <option value="" disabled selected>----------</option>
+                        <option value="Suggestion">Suggestion</option>
+                        <option value="Bug Report">Bug Report</option>
+                        <option value="Complaint">Complaint</option>
+                        <option value="Appreciation">Appreciation</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <textarea name="message" required placeholder="Feedback message" style="padding:12px;
+
+                     background:#121212; 
+                     margin-top: 10px;   
+                     order:1px solid #3a3a55;
+                     border-radius:6px;
+                     color:#fff;
+                     font-size:14px;
+                     min-height:120px;
+                     resize:vertical; "></textarea>
+
+                    <button type="submit" style="padding:12px;
+                   background:linear-gradient(135deg,#6c5ce7,#4834d4);
+                   color:#fff;
+                   margin-top: 10px;   
+                   border:none;
+                   border-radius:6px;
+                   font-size:15px;
+                   font-weight:600;
+                   cursor:pointer; ">
+                        Save
+                    </button>
+                </form>
+
+
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
