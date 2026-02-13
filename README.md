@@ -17,7 +17,7 @@ The **Models Booking System** is a Python-based web application that allows user
 It includes a fully functional **Admin Panel** to manage users, models, bookings, feedback, and notifications.
 
 **Key Highlights:**
-- Built with **Python** (Django or Flask)  
+- Built with **Python** (Django)  
 - Secure user authentication & sessions  
 - Fully responsive front-end with HTML, CSS, Bootstrap  
 - Admin dashboard with role-based access  
@@ -30,7 +30,6 @@ It includes a fully functional **Admin Panel** to manage users, models, bookings
 
 * 💳 **Online Payment Integration** – Book models securely  
 * 🪑 **Appointment Scheduling System** – Choose exact time slots  
-* ✉️ **Email Booking Confirmation** – Send booking details automatically via email  
 * 📊 **Live Availability Dashboard** – Show real-time models availability  
 * 📱 **Progressive Web App (PWA)** – Access bookings from mobile app  
 
