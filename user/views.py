@@ -1,15 +1,20 @@
-from django.shortcuts import render, redirect , get_object_or_404
-from django.contrib import messages
+import io
+import datetime
+import qrcode
+
 from .forms import *
 from .models import *
+
+from django.shortcuts import render, redirect , get_object_or_404
+from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail,EmailMessage
+
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib import colors
-import io
-import datetime
+from django.contrib.staticfiles import finders
 
 def signup(request):
     if request.method == "POST":
@@ -279,126 +284,112 @@ def book_appointment(request, id):
         pdf = canvas.Canvas(buffer, pagesize=A4)
         width, height = A4
 
-        # ===== HEADER =====
-        pdf.setFillColorRGB(0.15, 0.45, 0.85)
-        pdf.rect(0, height - 100, width, 100, fill=1)
+        # =========================
+        # WATERMARK
+        # =========================
+        pdf.saveState()
+        pdf.setFont("Helvetica-Bold", 100)
+        pdf.setFillColorRGB(0.93, 0.93, 0.93)
+        pdf.translate(width / 2, height / 2)
+        pdf.rotate(45)
+        pdf.drawCentredString(0, 0, "MODELS")
+        pdf.restoreState()
 
-        pdf.setFillColorRGB(1, 1, 1)
-        pdf.setFont("Helvetica-Bold", 24)
-        pdf.drawCentredString(width / 2, height - 60, "APPOINTMENT CONFIRMATION")
+        # =========================
+        # HEADER
+        # =========================
+        pdf.setFillColorRGB(0.05, 0.12, 0.25)
+        pdf.rect(0, height - 90, width, 90, fill=1)
 
-        pdf.setFont("Helvetica", 12)
-        pdf.drawRightString(width - 40, height - 75, f"Booking ID: #{appointment.id}")
-        pdf.drawRightString(width - 40, height - 90, f"Date: {appointment.appointment_date}")
+        # Logo from static
+        logo_path = finders.find("assets/img/logo.jpg")  # adjust if needed
+        if logo_path:
+            pdf.drawImage(
+                logo_path,
+                40,
+                height - 75,
+                width=40,
+                height=40,
+                mask='auto'
+            )
 
-        pdf.setFillColorRGB(0, 0, 0)
-
-        # ==========================================
-        # SECTION 1: CUSTOMER DETAILS + IMAGE
-        # ==========================================
-        section_top = height - 130
-        section_height = 170
-
-        # Outer Box
-        pdf.setStrokeColorRGB(0.8, 0.8, 0.8)
-        pdf.rect(40, section_top - section_height, width - 80, section_height)
-
-        # ----- LEFT SIDE (Customer Details)
-        left_x = 60
-        y = section_top - 30
-
-        pdf.setFont("Helvetica-Bold", 14)
-        pdf.drawString(left_x, y, "Customer Details")
-        y -= 25
-
-        pdf.setFont("Helvetica", 12)
-        pdf.drawString(left_x, y, f"Name: {appointment.name}")
-        y -= 20
-        pdf.drawString(left_x, y, f"Email: {appointment.email}")
-        y -= 20
-        pdf.drawString(left_x, y, f"Phone: {appointment.phone}")
-
-        # ----- RIGHT SIDE (Model Image)
-        if profile.profile_image:
-            try:
-                image_path = profile.profile_image.path
-
-                img_width = 130
-                img_height = 150
-                img_x = width - 200
-                img_y = section_top - img_height - 10
-
-                # Image Border
-                pdf.setFillColorRGB(1, 1, 1)
-                pdf.setStrokeColorRGB(0.7, 0.7, 0.7)
-                pdf.rect(img_x - 5, img_y - 5, img_width + 10, img_height + 10, fill=1)
-
-                pdf.drawImage(
-                    image_path,
-                    img_x,
-                    img_y,
-                    width=img_width,
-                    height=img_height,
-                    preserveAspectRatio=True,
-                    mask='auto'
-                )
-            except Exception as e:
-                print("Image Error:", e)
-
-        # ==========================================
-        # SECTION 2: APPOINTMENT TABLE
-        # ==========================================
-        table_y = section_top - section_height - 40
-
-        # Table Header
-        pdf.setFillColorRGB(0.2, 0.5, 0.8)
-        pdf.rect(60, table_y, width - 120, 30, fill=1)
-
-        pdf.setFillColorRGB(1, 1, 1)
-        pdf.setFont("Helvetica-Bold", 12)
-        pdf.drawString(70, table_y + 8, "Model")
-        pdf.drawString(250, table_y + 8, "Date")
-        pdf.drawString(340, table_y + 8, "Time")
-        pdf.drawString(430, table_y + 8, "Status")
-
-        # Table Row
-        table_y -= 30
-        pdf.setFillColorRGB(0, 0, 0)
-        pdf.setFont("Helvetica", 12)
-
-        pdf.drawString(70, table_y + 8, appointment.model_name)
-        pdf.drawString(250, table_y + 8, str(appointment.appointment_date))
-        pdf.drawString(340, table_y + 8, str(appointment.appointment_time))
-        pdf.drawString(430, table_y + 8, "Confirmed")
-
-        pdf.rect(60, table_y, width - 120, 30)
-
-        # ==========================================
-        # SECTION 3: NOTES
-        # ==========================================
-        notes_y = table_y - 60
-
-        pdf.setFont("Helvetica-Bold", 13)
-        pdf.drawString(60, notes_y, "Important Notes:")
-        notes_y -= 25
+        pdf.setFillColor(colors.white)
+        pdf.setFont("Helvetica-Bold", 18)
+        pdf.drawString(100, height - 50, "MODELS")
 
         pdf.setFont("Helvetica", 11)
-        pdf.drawString(60, notes_y, "• Please arrive 15 minutes before your scheduled time.")
-        notes_y -= 18
-        pdf.drawString(60, notes_y, "• Bring valid ID proof.")
-        notes_y -= 18
-        pdf.drawString(60, notes_y, "• Contact support for rescheduling.")
+        pdf.drawString(100, height - 68, "Appointment Confirmation")
 
-        # ==========================================
-        # FOOTER
-        # ==========================================
-        pdf.setFillColorRGB(0.9, 0.9, 0.9)
-        pdf.rect(0, 0, width, 60, fill=1)
-
-        pdf.setFillColorRGB(0, 0, 0)
+        # =========================
+        # BOOKING INFO
+        # =========================
+        pdf.setFillColor(colors.black)
         pdf.setFont("Helvetica", 10)
-        pdf.drawCentredString(width / 2, 30, "Thank you for choosing Your Company")
-        pdf.drawCentredString(width / 2, 18, "support@yourcompany.com | +91-9999999999")
+        pdf.drawString(40, height - 110, f"Booking ID: #{appointment.id}")
+        pdf.drawString(40, height - 125, f"Booking Date: {appointment.appointment_date}")
+
+        # =========================
+        # CUSTOMER DETAILS
+        # =========================
+        box_y = height - 170
+        pdf.setStrokeColor(colors.grey)
+        pdf.rect(40, box_y - 90, width - 80, 90)
+
+        pdf.setFont("Helvetica-Bold", 12)
+        pdf.drawString(50, box_y - 20, "Customer Details")
+
+        pdf.setFont("Helvetica", 11)
+        pdf.drawString(50, box_y - 40, f"Name: {appointment.name}")
+        pdf.drawString(50, box_y - 55, f"Email: {appointment.email}")
+        pdf.drawString(50, box_y - 70, f"Phone: {appointment.phone}")
+
+        # =========================
+        # APPOINTMENT TABLE
+        # =========================
+        table_y = box_y - 130
+
+        pdf.setFillColorRGB(0.2, 0.45, 0.75)
+        pdf.rect(40, table_y, width - 80, 25, fill=1)
+
+        pdf.setFillColor(colors.white)
+        pdf.setFont("Helvetica-Bold", 11)
+        pdf.drawString(50, table_y + 7, "Model")
+        pdf.drawString(220, table_y + 7, "Date")
+        pdf.drawString(330, table_y + 7, "Time")
+        pdf.drawString(420, table_y + 7, "Status")
+
+        row_y = table_y - 25
+        pdf.setFillColor(colors.black)
+        pdf.rect(40, row_y, width - 80, 25)
+
+        pdf.drawString(50, row_y + 7, appointment.model_name)
+        pdf.drawString(220, row_y + 7, str(appointment.appointment_date))
+        pdf.drawString(330, row_y + 7, str(appointment.appointment_time))
+        pdf.drawString(420, row_y + 7, "Confirmed")
+
+        # =========================
+        # IMPORTANT NOTES
+        # =========================
+        notes_y = row_y - 50
+
+        pdf.setFont("Helvetica-Bold", 12)
+        pdf.drawString(40, notes_y, "Important Notes")
+
+        pdf.setFont("Helvetica", 10)
+        pdf.drawString(50, notes_y - 20, "• Please arrive 15 minutes before your scheduled time.")
+        pdf.drawString(50, notes_y - 35, "• Bring valid ID proof.")
+        pdf.drawString(50, notes_y - 50, "• Contact support for rescheduling.")
+
+        # =========================
+        # FOOTER
+        # =========================
+        pdf.setFillColorRGB(0.95, 0.95, 0.95)
+        pdf.rect(0, 0, width, 50, fill=1)
+
+        pdf.setFillColor(colors.black)
+        pdf.setFont("Helvetica", 9)
+        pdf.drawCentredString(width / 2, 30, "Thank you for choosing MODELS")
+        pdf.drawCentredString(width / 2, 18, "support@models.com | +91-9999999999")
 
         pdf.showPage()
         pdf.save()
@@ -409,7 +400,20 @@ def book_appointment(request, id):
         # =========================
         email_user = EmailMessage(
             subject=f"Appointment Confirmation - {appointment.model_name}",
-            body=f"Hello {appointment.name},\n\nYour appointment has been confirmed.",
+            body=f"""
+Hello {appointment.name},
+
+Your appointment has been successfully confirmed.
+
+Model: {appointment.model_name}
+Date: {appointment.appointment_date}
+Time: {appointment.appointment_time}
+
+Please find your confirmation PDF attached.
+
+Thank you,
+MODELS Team
+            """,
             from_email=settings.EMAIL_HOST_USER,
             to=[appointment.email],
         )
@@ -428,6 +432,8 @@ def book_appointment(request, id):
         EmailMessage(
             subject=f"New Appointment - {appointment.model_name}",
             body=f"""
+New Booking Received
+
 Name: {appointment.name}
 Email: {appointment.email}
 Phone: {appointment.phone}
@@ -439,8 +445,7 @@ Time: {appointment.appointment_time}
             to=[settings.EMAIL_HOST_USER],
         ).send()
 
-        messages.success(request, "Appointment booked successfully! PDF sent.")
-
+        messages.success(request, "Appointment booked successfully! PDF sent to your email.")
         return redirect("book_appointment", id=id)
 
     return render(request, "book-appointment.html", {
