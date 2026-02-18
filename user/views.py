@@ -9,12 +9,15 @@ from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail,EmailMessage
+from django.utils import timezone
+from django.utils.html import strip_tags
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib import colors
 from django.contrib.staticfiles import finders
+
 
 def signup(request):
     if request.method == "POST":
@@ -152,74 +155,126 @@ def contact(request):
             contact = form.save()
 
             try:
-                # -------------------------
-                # 1️⃣ Email to ADMIN
-                # -------------------------
-                admin_subject = f"New Inquiry Received: {contact.subject}"
+                # =====================================================
+                # 1️⃣ EMAIL TO ADMIN (Plain Text)
+                # =====================================================
+
+                admin_subject = f"[New Contact Inquiry] {contact.subject}"
+
                 admin_message = (
-                    f"Hello Admin,\n\n"
-                    f"You have received a new inquiry.\n\n"
-                    f"Name: {contact.name}\n"
-                    f"Email: {contact.email}\n"
-                    f"Subject: {contact.subject}\n"
-                    f"Message:\n{contact.message}\n\n"
+                    "Hello Admin,\n"
+                    "=================================================\n\n"
+                    "A new contact inquiry has been submitted.\n\n"
+                    f"Name        : {contact.name}\n"
+                    f"Email       : {contact.email}\n"
+                    f"Subject     : {contact.subject}\n"
+                    f"Submitted On: {timezone.now().strftime('%d-%m-%Y %I:%M %p')}\n\n"
+                    "Message:\n"
+                    "-------------------------------------------------\n"
+                    f"{contact.message}\n"
+                    "-------------------------------------------------\n\n"
+                    "Please respond from the admin panel.\n\n"
+                    "Regards,\n"
+                    "Website System"
                 )
 
-                send_mail(
+                admin_email = EmailMessage(
                     subject=admin_subject,
-                    message=admin_message,
+                    body=admin_message,
                     from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[settings.EMAIL_HOST_USER],
-                    fail_silently=False,
+                    to=[settings.EMAIL_HOST_USER],
+                    reply_to=[contact.email],  # Admin can reply directly to user
                 )
 
-                # -------------------------
-                # 2️⃣ Email to USER
-                # -------------------------
-                user_subject = "Thank you for contacting us!"
-                user_message = (
-                    f"Hi {contact.name},\n\n"
+                admin_email.send(fail_silently=False)
 
-                    "Thank you for contacting us! We have successfully received your message.\n\n"
+                # =====================================================
+                # 2️⃣ COLORED HTML EMAIL TO USER
+                # =====================================================
 
-                    "Here are the details you submitted:\n"
-                    f"----------------------------------------\n"
-                    f"Subject: {contact.subject}\n"
-                    f"Message:\n{contact.message}\n"
-                    f"----------------------------------------\n\n"
+                user_subject = "Thank You for Contacting Us!"
 
-                    "Our team is currently reviewing your inquiry and will respond to you "
-                    "within 24-48 business hours.\n\n"
+                html_content = f"""
+                <!DOCTYPE html>
+                <html>
+                <body style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px;">
 
-                    "If your matter is urgent, you may reply directly to this email or contact "
-                    "our support team using the information below.\n\n"
+                    <div style="max-width: 600px; margin: auto; background: #ffffff; 
+                                padding: 25px; border-radius: 10px; 
+                                box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
 
-                    "We truly appreciate you taking the time to reach out to us.\n\n"
+                        <h2 style="color: #2c3e50; text-align: center;">
+                            Thank You, {contact.name}!
+                        </h2>
 
-                    "Warm regards,\n"
-                    "Customer Support Team\n"
-                    "Your Company Name\n"
-                    "Email: support@yourcompany.com\n"
-                    "Phone: +1-234-567-890\n"
-                    "Website: www.yourwebsite.com\n\n"
+                        <p style="color: #555; font-size: 14px;">
+                            We have successfully received your message.
+                            Our team will get back to you within 
+                            <strong style="color:#e74c3c;">24-48 business hours</strong>.
+                        </p>
 
-                    "This is an automated confirmation email. Please do not reply to this message."
-                )
+                        <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
 
+                        <h4 style="color: #34495e;">📩 Your Inquiry Details</h4>
 
-                send_mail(
+                        <p>
+                            <strong>Subject:</strong> 
+                            <span style="color: #3498db;">
+                                {contact.subject}
+                            </span>
+                        </p>
+
+                        <p><strong>Your Message:</strong></p>
+
+                        <div style="background-color: #f8f9fa; padding: 12px; 
+                                    border-left: 4px solid #3498db; 
+                                    border-radius: 5px; color: #555;">
+                            {contact.message}
+                        </div>
+
+                        <p style="margin-top: 20px; font-size: 13px; color: #777;">
+                            Submitted on: {timezone.now().strftime('%d-%m-%Y %I:%M %p')}
+                        </p>
+
+                        <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+
+                        <p style="font-size: 14px; color: #555;">
+                            If your matter is urgent, you may reply directly to this email.
+                        </p>
+
+                        <p style="margin-top: 20px;">
+                            <strong style="color:#2c3e50;">Customer Support Team</strong><br>
+                            <span style="color:#888;">Your Company Name</span><br>
+                            <span style="color:#3498db;">{settings.EMAIL_HOST_USER}</span>
+                        </p>
+
+                        <p style="font-size:12px; color:#999; margin-top:20px;">
+                            This is an automated confirmation email. Please do not reply directly.
+                        </p>
+
+                    </div>
+
+                </body>
+                </html>
+                """
+
+                text_content = strip_tags(html_content)
+
+                user_email = EmailMultiAlternatives(
                     subject=user_subject,
-                    message=user_message,
+                    body=text_content,
                     from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[contact.email],
-                    fail_silently=False,
+                    to=[contact.email],
                 )
 
-                messages.success(request, "Your message has been sent successfully!")
+                user_email.attach_alternative(html_content, "text/html")
+                user_email.send(fail_silently=False)
+
+                messages.success(request, "✅ Your message has been sent successfully!")
                 return redirect("contact")
 
             except Exception as e:
-                messages.error(request, f"Message saved but email failed: {str(e)}")
+                messages.error(request, f"⚠ Message saved but email failed: {str(e)}")
 
     else:
         form = ContactForm(initial={
@@ -227,10 +282,10 @@ def contact(request):
             "email": email,
         })
 
-    return render(request, 'contact.html', {
+    return render(request, "contact.html", {
         "form": form
     })
- 
+    
 def creatives(request):
     return render(request, 'creatives.html')
 
@@ -469,58 +524,118 @@ def feedback(request):
             feedback_instance = form.save()
 
             try:
-                # -------------------------
-                # 1️⃣ Email to ADMIN
-                # -------------------------
-                admin_subject = f"New Feedback Received: {feedback_instance.feedback}"
+                # =====================================================
+                # 1️⃣ EMAIL TO ADMIN (Plain Text)
+                # =====================================================
+                admin_subject = f"[Website Feedback] {feedback_instance.feedback}"
+
                 admin_message = (
-                    f"Hello Admin,\n\n"
-                    "You have received new feedback from your website:\n\n"
-                    f"Name: {feedback_instance.name}\n"
-                    f"Email: {feedback_instance.email}\n"
+                    "Hello Admin,\n"
+                    "=================================================\n\n"
+                    "A new feedback has been submitted on your website.\n\n"
+                    f"Name         : {feedback_instance.name}\n"
+                    f"Email        : {feedback_instance.email}\n"
                     f"Feedback Type: {feedback_instance.feedback}\n"
-                    f"Message:\n{feedback_instance.message}\n\n"
-                    f"Submitted on: {feedback_instance.created.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-                    "Please review and respond if necessary."
+                    f"Submitted On : {timezone.now().strftime('%d-%m-%Y %I:%M %p')}\n\n"
+                    "Message:\n"
+                    "-------------------------------------------------\n"
+                    f"{feedback_instance.message}\n"
+                    "-------------------------------------------------\n\n"
+                    "Please review this in the admin dashboard.\n\n"
+                    "Regards,\n"
+                    "Website System"
                 )
 
-                send_mail(
+                admin_email = EmailMessage(
                     subject=admin_subject,
-                    message=admin_message,
+                    body=admin_message,
                     from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[settings.EMAIL_HOST_USER],
-                    fail_silently=False,
+                    to=[settings.EMAIL_HOST_USER],
+                    reply_to=[feedback_instance.email],
                 )
 
-                # -------------------------
-                # 2️⃣ Confirmation Email to USER
-                # -------------------------
-                user_subject = "Thank you for your feedback!"
-                user_message = (
-                    f"Hi {feedback_instance.name},\n\n"
-                    "Thank you for your valuable feedback! We truly appreciate you taking "
-                    "the time to share your experience with us.\n\n"
-                    "Here’s a copy of your submission:\n\n"
-                    f"Feedback Type: {feedback_instance.feedback}\n"
-                    f"Message:\n{feedback_instance.message}\n\n"
-                    "Our team carefully reviews every feedback to improve our services.\n\n"
-                    "Best regards,\n"
-                    "Customer Support Team\n"
-                    "Your Company Name\n"
-                    f"Email: {settings.EMAIL_HOST_USER}"
-                )
+                admin_email.send(fail_silently=False)
 
-                send_mail(
+                # =====================================================
+                # 2️⃣ COLORED CONFIRMATION EMAIL TO USER (HTML)
+                # =====================================================
+
+                user_subject = "Thank You for Your Feedback – We’ve Received It!"
+
+                html_content = f"""
+                <!DOCTYPE html>
+                <html>
+                <body style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 20px;">
+
+                    <div style="max-width: 600px; margin: auto; background: #ffffff; 
+                                padding: 25px; border-radius: 10px; 
+                                box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+                        <h2 style="color: #2c3e50; text-align: center;">
+                            Thank You, {feedback_instance.name}!
+                        </h2>
+
+                        <p style="color: #555; font-size: 14px;">
+                            We have successfully received your feedback. 
+                            Our team will review it carefully.
+                        </p>
+
+                        <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+
+                        <h4 style="color: #34495e;">📋 Your Submission Details</h4>
+
+                        <p>
+                            <strong>Feedback Type:</strong> 
+                            <span style="color: #e74c3c;">
+                                {feedback_instance.feedback}
+                            </span>
+                        </p>
+
+                        <p><strong>Your Message:</strong></p>
+
+                        <div style="background-color: #f8f9fa; padding: 12px; 
+                                    border-left: 4px solid #3498db; 
+                                    border-radius: 5px; color: #555;">
+                            {feedback_instance.message}
+                        </div>
+
+                        <p style="margin-top: 20px; font-size: 13px; color: #777;">
+                            Submitted on: {feedback_instance.created.strftime('%d-%m-%Y %I:%M %p')}
+                        </p>
+
+                        <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+
+                        <p style="font-size: 14px; color: #555;">
+                            If you have any further questions, feel free to contact us.
+                        </p>
+
+                        <p style="margin-top: 20px;">
+                            <strong style="color:#2c3e50;">Customer Support Team</strong><br>
+                            <span style="color:#888;">Models.</span><br>
+                            <span style="color:#3498db;">{settings.EMAIL_HOST_USER}</span>
+                        </p>
+
+                    </div>
+
+                </body>
+                </html>
+                """
+
+                text_content = strip_tags(html_content)
+
+                user_email = EmailMultiAlternatives(
                     subject=user_subject,
-                    message=user_message,
+                    body=text_content,
                     from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[feedback_instance.email],
-                    fail_silently=False,
+                    to=[feedback_instance.email],
                 )
+
+                user_email.attach_alternative(html_content, "text/html")
+                user_email.send(fail_silently=False)
 
                 messages.success(
                     request,
-                    "Thank you! Your feedback has been submitted successfully. Check your email for confirmation."
+                    "✅ Thank you! Your feedback has been submitted successfully. Please check your email."
                 )
 
                 return redirect("feedback")
@@ -528,12 +643,13 @@ def feedback(request):
             except Exception as e:
                 messages.error(
                     request,
-                    f"Feedback saved, but error sending emails: {str(e)}"
+                    f"⚠ Feedback saved, but email sending failed: {str(e)}"
                 )
+
         else:
             messages.error(
                 request,
-                "There were errors in your submission. Please correct them below."
+                "❌ There were errors in your submission. Please correct them."
             )
 
     else:
@@ -542,7 +658,7 @@ def feedback(request):
             "email": email,
         })
 
-    return render(request, 'feedback.html', {"form": form})
+    return render(request, "feedback.html", {"form": form})
 
 def logout_view(request):
     request.session.flush()   
