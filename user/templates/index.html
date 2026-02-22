@@ -4,38 +4,64 @@
 <head>
   <meta charset="UTF-8">
   <title>Home - Models</title>
+  <!-- titel icon -->
   <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+
+  <!-- main css file -->
   <link rel="stylesheet" href="/static/assets/css/styles.css">
+
+  <!-- cursor css file -->
   <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+
+  <!-- sctoll type css file -->
   <link rel="stylesheet" href="/static/assets/css/fashion_scroll.css">
+
+  <!-- scroll bottom to top css file -->
   <link rel="stylesheet" href="/static/assets/css/top_btn.css">
 
+  <!-- border css file -->
+  <link rel="stylesheet" href="/static/assets/css/border.css">
 
+  <!-- loader css file -->
+  <link rel="stylesheet" href="/static/assets/css/loader.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
+
+
+  <!-- ================= LOADER ================= -->
+  <div id="loader">
+    <div class="loader-box" id="loaderBox">
+      <div class="logo-text">MODELS</div>
+      <div class="progress">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll To Top Button -->
   <button id="scrollTopBtn">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M6 14L12 8L18 14" 
-              stroke="white" 
-              stroke-width="2.5" 
-              stroke-linecap="round" 
-              stroke-linejoin="round"/>
+      <path d="M6 14L12 8L18 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
-</button>
+  </button>
+
+  <!-- Scroll bar -->
   <div id="scroll-progress-container">
     <a href="javascript:void(0)" id="scroll-progress-link">
       <div id="scroll-progress-bar"></div>
     </a>
   </div>
 
+  <!-- nav bar -->
   <div class="main-header-section">
     <div class="navbar">
       <!-- Left Logo -->
       <a href="/">
-        <div class="logo">
+        <!-- ✅ IMPORTANT: id added -->
+        <div class="logo" id="navLogo">
           models<span>.</span>
         </div>
       </a>
@@ -68,6 +94,7 @@
     <hr>
   </div>
 
+  <!-- hero section start -->
   <div class="feature-section">
 
     <!-- Image Wrapper -->
@@ -174,8 +201,7 @@
       </div>
     </div>
   </div>
-
-  <!--Body section end-->
+  <!-- hero section end -->
 
   <!--Trending section start-->
   <div class="trending-section">
@@ -319,6 +345,13 @@
   </div>
   <!--Trending section end-->
 
+  <!-- rope section -->
+  <section class="rope-divider">
+    <svg viewBox="0 0 1500 400" preserveAspectRatio="none">
+      <path class="rope" d="M 20 200 C 400 200 1100 200 1480 200"></path>
+    </svg>
+  </section>
+
   <!-- socialmeia section start -->
   <section class="fashion-news-section">
     <div class="container">
@@ -400,6 +433,13 @@
   </section>
   <!-- socialmeia section end -->
 
+  <!-- rope section -->
+  <section class="rope-divider">
+    <svg viewBox="0 0 1500 400" preserveAspectRatio="none">
+      <path class="rope" d="M 20 200 C 400 200 1100 200 1480 200"></path>
+    </svg>
+  </section>
+
   <!--MDC section start-->
   <section class="mdc-social">
     <div class="container">
@@ -436,6 +476,13 @@
     </div>
   </section>
   <!--MDC section end-->
+
+  <!-- rope section -->
+  <section class="rope-divider">
+    <svg viewBox="0 0 1500 400" preserveAspectRatio="none">
+      <path class="rope" d="M 20 200 C 400 200 1100 200 1480 200"></path>
+    </svg>
+  </section>
 
   <!--Discover Models section start-->
   <section class="discover-section">
@@ -657,10 +704,27 @@
   </footer>
   <!-- Footer Section End -->
 
+
+  <!-- bottom to top icon link -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+
+  <!-- main js file -->
   <script src="/static/assets/js/main.js"></script>
+  
+  <!-- cursor js file -->
   <script src="/static/assets/js/cursor-effect.js"></script>
+
+  <!-- scroll type js file -->
   <script src="/static/assets/js/fashion_scroll.js"></script>
+  
+  <!-- bottom to top js file -->
   <script src="/static/assets/js/top_btn.js"></script>
+
+  <!-- border js file -->
+  <script src="/static/assets/js/border.js"></script>
+
+  <!-- loader js file -->
+  <script src="/static/assets/js/loader.js"></script>
 
   <script>
     function openLightbox(src) {

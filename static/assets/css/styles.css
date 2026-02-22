@@ -91,7 +91,7 @@ body {
   font-size: 35px;
   font-weight: bold;
   position: relative;
-  left: 60px;
+  left: 78px;
   text-decoration: none;
   color: #000;
 
@@ -130,7 +130,7 @@ body {
 
 .login-section {
   position: relative;
-  right: 50px;
+  right: 80px;
 }
 
 .login-section a {
@@ -277,8 +277,8 @@ body {
 
 /* treading section */
 .container {
-  width: 92%;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 1300px;
   margin: auto;
 }
 
@@ -336,7 +336,7 @@ body {
 
 .trend-card img {
   width: 100%;
-  height: 70%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
@@ -436,8 +436,6 @@ body {
 
 
 .fashion-news-section {
-  padding: 0 40px;
-  padding-bottom: 80px;
   background-color: #ffffff;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
@@ -507,9 +505,7 @@ body {
   margin: 0 auto;
   text-align: center;
   font-family: "Georgia", serif;
-  padding-bottom: 80px;
   position: relative;
-  left: 45px;
 }
 
 .mdc-social h2 {
@@ -565,7 +561,6 @@ body {
   position: relative;
   overflow: visible;
   width: 100%;
-  right: 45px;
 }
 
 .mdc-track {
@@ -973,7 +968,6 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   justify-items: center;
-  margin: 0 80px;
 }
 
 .ranking-item {
@@ -1007,9 +1001,8 @@ body {
 }
 
 .pro-container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: auto;
-  padding: 0 20px;
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: 60px;
@@ -1071,7 +1064,7 @@ body {
 }
 
 .be-inspired .container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: auto;
   display: flex;
   align-items: center;
@@ -1238,7 +1231,7 @@ body {
 }
 
 .contact-container {
-  max-width: 1100px;
+  max-width: 1300px;
   margin: auto;
   background-color: #fcfcfc;
 }
@@ -1488,7 +1481,7 @@ hr {
 }
 
 .feature-container {
-  max-width: 1400px;
+  max-width: 1300px;
   margin: auto;
   display: grid;
   gap: 60px;
@@ -1584,9 +1577,9 @@ hr {
 /* CARD */
 .mreg-card {
   width: 100%;
-  max-width: 780px;
+  max-width: 1300px;
   background: #ffffff;
-  padding: 40px;
+  padding: 40px 0;
   padding-top: 140px;
   border-radius: 8px;
 }
@@ -1667,10 +1660,10 @@ hr {
 /* model details */
 
 .model-detail-section {
-  padding: 60px 10%;
+  padding: 60px 7.6%;
   background: #fff;
   color: #000;
-  padding-top: 170px;
+  padding-top: 150px;
 }
 
 .model-detail-container {

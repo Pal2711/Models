@@ -1,0 +1,27 @@
+/* ===============================
+   ROPE SECTION
+================================ */
+.rope-divider{
+    width:100%;
+    height:140px;
+    overflow:hidden;
+}
+
+/* ===============================
+   SVG
+================================ */
+.rope-divider svg{
+    width:100%;
+    height:100%;
+    display:block;
+}
+
+/* ===============================
+   ROPE STYLE
+================================ */
+.rope{
+    stroke:#000;
+    stroke-width:4;
+    fill:none;
+    stroke-linecap:round;
+}
