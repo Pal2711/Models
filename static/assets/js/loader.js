@@ -15,45 +15,90 @@ window.addEventListener("load", () => {
 
   let progress = 0;
   let isPaused = false;
+  let exitStarted = false;
+
+  /* ===== NATURAL SPEED FUNCTION ===== */
+  function getNaturalSpeed(p) {
+    if (p < 20) return random(1.2, 2.2);
+    if (p < 70) return random(0.4, 1.4);
+    if (p < 90) return random(0.2, 0.6);
+    return random(0.05, 0.15);
+  }
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 
   /* ===== PROGRESS ENGINE ===== */
-  const interval = setInterval(() => {
-    if (isPaused) return;
+  function animate() {
+    if (isPaused) {
+      requestAnimationFrame(animate);
+      return;
+    }
 
-    progress += 1;
+    progress += getNaturalSpeed(progress);
+    progress = Math.min(progress, 100);
 
     progressFill.style.width = progress + "%";
     logoText.style.backgroundSize = progress + "% 100%";
 
-    // premium micro pause
-    if (progress > 25 && progress < 92 && Math.random() < 0.10) {
+    /* ===== SMART MICRO PAUSES ===== */
+    if (progress > 15 && progress < 92 && Math.random() < 0.035) {
       isPaused = true;
-      setTimeout(() => (isPaused = false), 110);
+      setTimeout(() => (isPaused = false), random(120, 420));
     }
 
-    /* ✅ WHEN COMPLETE → AUTO HIDE */
+    /* ===== COMPLETE ===== */
     if (progress >= 100) {
-      clearInterval(interval);
-      startExit(); // 🔥 immediate auto hide
+      progress = 100;
+      progressFill.style.width = "100%";
+      logoText.style.backgroundSize = "100% 100%";
+
+      // human-like wait before exit
+      setTimeout(startExit, 550);
+      return;
     }
-  }, 32);
 
-  /* ===== SMOOTH EXIT ===== */
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+
+  /* ===== PERFECT BUTTERY EXIT ===== */
   function startExit() {
-    loaderBox.style.transformOrigin = "center";
-    loaderBox.style.transition =
-      "transform 1.5s cubic-bezier(.16,1,.3,1), opacity 1.5s ease";
+    if (exitStarted) return;
+    exitStarted = true;
 
-    loaderBox.style.transform = "scale(0.4)";
-    loaderBox.style.opacity = "0";
+    /* ===== GPU PREP ===== */
+    loaderBox.style.willChange = "transform, opacity, filter";
+    loader.style.willChange = "opacity";
 
-    // background fade
-    loader.style.transition = "opacity 1.2s ease";
-    loader.style.opacity = "0";
+    /* ===== PHASE 1 — SOFT DISSOLVE ===== */
+    setTimeout(() => {
+      loaderBox.style.transition =
+        "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), " +
+        "opacity 1.2s ease-out, " +
+        "filter 1.2s ease-out";
 
-    // remove completely (best)
+      // very subtle (premium feel)
+      loaderBox.style.transform = "translateY(-6px) scale(0.96)";
+      loaderBox.style.opacity = "0";
+      loaderBox.style.filter = "blur(6px)";
+    }, 60);
+
+    /* ===== PHASE 2 — BACKDROP MELT ===== */
+    setTimeout(() => {
+      loader.style.transition = "opacity 0.9s ease-out";
+      loader.style.opacity = "0";
+    }, 420);
+
+    /* ===== PHASE 3 — CLEAN REMOVE ===== */
     setTimeout(() => {
       loader.style.display = "none";
-    }, 1300);
+      document.body.classList.remove("loading");
+
+      loaderBox.style.willChange = "auto";
+      loader.style.willChange = "auto";
+    }, 1350);
   }
 });
