@@ -24,7 +24,8 @@
         <div class="navbar">
             <!-- Left Logo -->
             <a href="/">
-                <div class="logo">
+                <!-- ✅ IMPORTANT: id added -->
+                <div class="logo" id="navLogo">
                     models<span>.</span>
                 </div>
             </a>
@@ -35,7 +36,14 @@
                 <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
                 <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
                 <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+                {% if request.session.userid %}
+                <li class="menu-sub-class">
+                    <a href="{% url 'my_bookings' %}">My Booking</a><span class="menu-icon-cls">|</span>
+                </li>
+                {% endif %}
                 <li class="menu-sub-class"><a href="/about/">About</a></li>
+
+
             </ul>
 
             <!-- Right Section -->
@@ -50,6 +58,7 @@
                 <a href="{% url 'login' %}">Login</a>
                 {% endif %}
             </div>
+
         </div>
         <hr>
     </div>
@@ -196,51 +205,51 @@
     </section>
 
     <!-- Footer Section Start -->
-     <footer class="model-footer">
-    <div class="footer-container">
+    <footer class="model-footer">
+        <div class="footer-container">
 
-      <!-- Social Media -->
-      <div class="footer-col">
-        <h4>Social Media</h4>
-        <div class="footer-social">
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-x-twitter"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
+            <!-- Social Media -->
+            <div class="footer-col">
+                <h4>Social Media</h4>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Explore -->
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="/rankings/">Ranking</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/feedback/">Feedback</a></li>
+
+
+
+                </ul>
+            </div>
+
+            <!-- Inside the Industry -->
+            <div class="footer-col">
+                <h4>Inside the Industry</h4>
+                <ul>
+                    <li><a href="/model/">Models</a></li>
+                    <li><a href="/creatives/">Creatives</a></li>
+                    <li><a href="/fashion/">Fashion</a></li>
+                    <li><a href="/beauty/">Beauty</a></li>
+                </ul>
+            </div>
+
         </div>
-      </div>
 
-      <!-- Explore -->
-      <div class="footer-col">
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="/rankings/">Ranking</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/contact/">Contact</a></li>
-          <li><a href="/feedback/">Feedback</a></li>
-
-
-
-        </ul>
-      </div>
-
-      <!-- Inside the Industry -->
-      <div class="footer-col">
-        <h4>Inside the Industry</h4>
-        <ul>
-          <li><a href="/model/">Models</a></li>
-          <li><a href="/creatives/">Creatives</a></li>
-          <li><a href="/fashion/">Fashion</a></li>
-          <li><a href="/beauty/">Beauty</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2026 Model Website. All Rights Reserved.</p>
-    </div>
-  </footer>
+        <div class="footer-bottom">
+            <p>© 2026 Model Website. All Rights Reserved.</p>
+        </div>
+    </footer>
     <!-- Footer Section End -->
 
     <script src="/static/assets/js/main.js"></script>
@@ -258,7 +267,7 @@
             document.getElementById("lightbox").style.display = "none";
         }
     </script>
-     <!-- JS Script -->
+    <!-- JS Script -->
     <script>
         const counters = document.querySelectorAll(".stat-number");
 

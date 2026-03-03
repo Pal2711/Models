@@ -10,23 +10,52 @@
 
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>Admin Panel</h2>
             </div>
+
             <nav class="sidebar-nav">
-                <a href="/adminapp/adminindex/" class="nav-item">📊 Dashboard</a>
-                <a href="/adminapp/adminmodels/" class="nav-item">👤 Models</a>
-                <a href="/adminapp/adminbookings/" class="nav-item">📅 Bookings</a>
-                <a href="/adminapp/adminusers/" class="nav-item">👥 Users</a>
-                <a href="/adminapp/adminfeedback/" class="nav-item">💬 Feedback</a>
-                <a href="/adminapp/admincontact/" class="nav-item">📧 Contact</a>
+                <a href="/adminapp/adminindex/" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+
+                <a href="/adminapp/adminmodels/" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    Models
+                </a>
+
+                <a href="/adminapp/adminbookings/" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    Bookings
+                </a>
+
+                <a href="/adminapp/adminusers/" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    Users
+                </a>
+
+                <a href="/adminapp/adminfeedback/" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    Feedback
+                </a>
+
+                <a href="/adminapp/admincontact/" class="nav-item">
+                    <span class="nav-icon">📧</span>
+                    Contact
+                </a>
             </nav>
+
             <div class="sidebar-footer">
-                <button class="btn btn-secondary logout-btn" onclick="logout()">Logout</button>
+                <a href="{% url 'adminlogout' %}" class="btn btn-secondary logout-btn">
+                    Logout
+                </a>
             </div>
+
         </aside>
+
 
         <!-- Main Content -->
         <main class="main-content">
@@ -44,21 +73,24 @@
 
                     <div class="form-group">
                         <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" value="{{ fb.email }}" class="form-control" required>
+                        <input type="email" id="email" name="email" value="{{ fb.email }}" class="form-control"
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label for="feedback">Feedback Type *</label>
                         <select id="feedback" name="feedback" class="form-control" required>
                             {% for type, display in fb.FEEDBACK_TYPES %}
-                                <option value="{{ type }}" {% if fb.feedback == type %}selected{% endif %}>{{ display }}</option>
+                            <option value="{{ type }}" {% if fb.feedback==type %}selected{% endif %}>{{ display }}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="message">Message *</label>
-                        <textarea id="message" name="message" class="form-control" rows="5" required>{{ fb.message }}</textarea>
+                        <textarea id="message" name="message" class="form-control" rows="5"
+                            required>{{ fb.message }}</textarea>
                     </div>
 
                     <div class="form-footer" style="margin-top:20px;">
@@ -70,4 +102,5 @@
         </main>
     </div>
 </body>
+
 </html>

@@ -219,7 +219,6 @@ body {
   display: none;
   /* hide all slides initially */
   text-align: center;
-  padding: 15px;
 }
 
 /* Active slide */

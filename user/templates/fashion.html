@@ -22,7 +22,8 @@
     <div class="navbar">
       <!-- Left Logo -->
       <a href="/">
-        <div class="logo">
+        <!-- ✅ IMPORTANT: id added -->
+        <div class="logo" id="navLogo">
           models<span>.</span>
         </div>
       </a>
@@ -33,7 +34,14 @@
         <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
         <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
         <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        {% if request.session.userid %}
+        <li class="menu-sub-class">
+          <a href="{% url 'my_bookings' %}">My Booking</a><span class="menu-icon-cls">|</span>
+        </li>
+        {% endif %}
         <li class="menu-sub-class"><a href="/about/">About</a></li>
+
+
       </ul>
 
       <!-- Right Section -->
@@ -48,9 +56,11 @@
         <a href="{% url 'login' %}">Login</a>
         {% endif %}
       </div>
+
     </div>
     <hr>
   </div>
+
   <header class="page-header">
     <h1>Fashion</h1>
   </header>

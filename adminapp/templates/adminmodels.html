@@ -13,7 +13,7 @@
 
     <div class="admin-container">
 
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>Admin Panel</h2>
@@ -21,34 +21,44 @@
 
             <nav class="sidebar-nav">
                 <a href="/adminapp/adminindex/" class="nav-item">
-                    <span class="nav-icon">📊</span> Dashboard
+                    <span class="nav-icon">📊</span>
+                    Dashboard
                 </a>
 
                 <a href="/adminapp/adminmodels/" class="nav-item">
-                    <span class="nav-icon">👤</span> Models
+                    <span class="nav-icon">👤</span>
+                    Models
                 </a>
 
                 <a href="/adminapp/adminbookings/" class="nav-item">
-                    <span class="nav-icon">📅</span> Bookings
+                    <span class="nav-icon">📅</span>
+                    Bookings
                 </a>
 
                 <a href="/adminapp/adminusers/" class="nav-item">
-                    <span class="nav-icon">👥</span> Users
+                    <span class="nav-icon">👥</span>
+                    Users
                 </a>
 
                 <a href="/adminapp/adminfeedback/" class="nav-item">
-                    <span class="nav-icon">💬</span> Feedback
+                    <span class="nav-icon">💬</span>
+                    Feedback
                 </a>
 
                 <a href="/adminapp/admincontact/" class="nav-item">
-                    <span class="nav-icon">📧</span> Contact
+                    <span class="nav-icon">📧</span>
+                    Contact
                 </a>
             </nav>
 
             <div class="sidebar-footer">
-                <button class="btn btn-secondary logout-btn">Logout</button>
+                <a href="{% url 'adminlogout' %}" class="btn btn-secondary logout-btn">
+                    Logout
+                </a>
             </div>
+
         </aside>
+
 
         <!-- Main Content -->
         <main class="main-content">

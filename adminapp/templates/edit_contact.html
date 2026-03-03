@@ -1,29 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Contact</title>
     <link rel="stylesheet" href="/static/admin/css/style.css">
 </head>
+
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>Admin Panel</h2>
             </div>
+
             <nav class="sidebar-nav">
-                <a href="/adminapp/adminindex/" class="nav-item">📊 Dashboard</a>
-                <a href="/adminapp/adminmodels/" class="nav-item">👤 Models</a>
-                <a href="/adminapp/adminbookings/" class="nav-item">📅 Bookings</a>
-                <a href="/adminapp/adminusers/" class="nav-item">👥 Users</a>
-                <a href="/adminapp/adminfeedback/" class="nav-item">💬 Feedback</a>
-                <a href="/adminapp/admincontact/" class="nav-item">📧 Contact</a>
+                <a href="/adminapp/adminindex/" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+
+                <a href="/adminapp/adminmodels/" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    Models
+                </a>
+
+                <a href="/adminapp/adminbookings/" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    Bookings
+                </a>
+
+                <a href="/adminapp/adminusers/" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    Users
+                </a>
+
+                <a href="/adminapp/adminfeedback/" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    Feedback
+                </a>
+
+                <a href="/adminapp/admincontact/" class="nav-item">
+                    <span class="nav-icon">📧</span>
+                    Contact
+                </a>
             </nav>
+
             <div class="sidebar-footer">
-                <button class="btn btn-secondary logout-btn" onclick="logout()">Logout</button>
+                <a href="{% url 'adminlogout' %}" class="btn btn-secondary logout-btn">
+                    Logout
+                </a>
             </div>
+
         </aside>
 
         <!-- Main Content -->
@@ -35,7 +65,7 @@
             <div class="card" style="padding:20px; margin-top:20px;">
                 <form method="POST">
                     {% csrf_token %}
-                    
+
                     <div class="form-group">
                         <label>Name *</label>
                         <input type="text" name="name" value="{{ contact.name }}" class="form-control" required>
@@ -50,7 +80,8 @@
                         <label>Subject *</label>
                         <select name="subject" class="form-control" required>
                             {% for key, value in contact.SUBJECT_TYPE %}
-                                <option value="{{ key }}" {% if contact.subject == key %}selected{% endif %}>{{ value }}</option>
+                            <option value="{{ key }}" {% if contact.subject==key %}selected{% endif %}>{{ value }}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -69,4 +100,5 @@
         </main>
     </div>
 </body>
+
 </html>

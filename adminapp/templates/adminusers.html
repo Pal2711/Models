@@ -10,11 +10,12 @@
 
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>Admin Panel</h2>
             </div>
+
             <nav class="sidebar-nav">
                 <a href="/adminapp/adminindex/" class="nav-item">
                     <span class="nav-icon">📊</span>
@@ -46,10 +47,15 @@
                     Contact
                 </a>
             </nav>
+
             <div class="sidebar-footer">
-                <button class="btn btn-secondary logout-btn" onclick="logout()">Logout</button>
+                <a href="{% url 'adminlogout' %}" class="btn btn-secondary logout-btn">
+                    Logout
+                </a>
             </div>
+
         </aside>
+
 
         <!-- Main Content -->
         <main class="main-content">
@@ -87,7 +93,8 @@
                                 <td>{{ user.created|date:"M d, Y" }}</td>
                                 <td>
                                     <div class="action-buttons">
-                                        <a href="{% url 'delete_user' user.id %}" class="btn btn-danger"style="text-decoration: none;"
+                                        <a href="{% url 'delete_user' user.id %}" class="btn btn-danger"
+                                            style="text-decoration: none;"
                                             onclick="return confirm('Are you sure you want to delete this user?');">
                                             Delete
                                         </a>
@@ -108,4 +115,5 @@
         </main>
     </div>
 </body>
+
 </html>

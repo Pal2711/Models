@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Add Booking</title>
@@ -12,7 +13,7 @@
             padding: 30px;
             max-width: 1200px;
             margin: 30px auto;
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
         }
 
         .card h2 {
@@ -48,7 +49,7 @@
         .form-control:focus {
             outline: none;
             border-color: #6c5ce7;
-            box-shadow: 0 0 0 2px rgba(108,92,231,0.25);
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.25);
         }
 
         /* ---------- BUTTON ---------- */
@@ -67,7 +68,7 @@
 
         .btn-save:hover {
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(108,92,231,0.35);
+            box-shadow: 0 6px 16px rgba(108, 92, 231, 0.35);
         }
 
         /* ---------- HEADER ---------- */
@@ -79,63 +80,89 @@
 </head>
 
 <body>
-<div class="admin-container">
+    <div class="admin-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>Admin Panel</h2>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="/adminapp/adminindex/" class="nav-item">📊 Dashboard</a>
-            <a href="/adminapp/adminmodels/" class="nav-item">👤 Models</a>
-            <a href="/adminapp/adminbookings/" class="nav-item">📅 Bookings</a>
-            <a href="/adminapp/adminusers/" class="nav-item">👥 Users</a>
-            <a href="/adminapp/adminfeedback/" class="nav-item">💬 Feedback</a>
-            <a href="/adminapp/admincontact/" class="nav-item">📧 Contact</a>
-        </nav>
-    </aside>
+            <nav class="sidebar-nav">
+                <a href="/adminapp/adminindex/" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <header class="content-header">
-            <h2>Add Booking</h2>
-        </header>
+                <a href="/adminapp/adminmodels/" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    Models
+                </a>
 
-        <div class="card">
+                <a href="/adminapp/adminbookings/" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    Bookings
+                </a>
 
-            <form method="POST">
-                {% csrf_token %}
+                <a href="/adminapp/adminusers/" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    Users
+                </a>
 
-                <select name="model_profile" class="form-control" required>
-                    <option value="" disabled selected>Select Model</option>
-                    {% for model in models %}
+                <a href="/adminapp/adminfeedback/" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    Feedback
+                </a>
+
+                <a href="/adminapp/admincontact/" class="nav-item">
+                    <span class="nav-icon">📧</span>
+                    Contact
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="{% url 'adminlogout' %}" class="btn btn-secondary logout-btn">
+                    Logout
+                </a>
+            </div>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h2>Add Booking</h2>
+            </header>
+
+            <div class="card">
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <select name="model_profile" class="form-control" required>
+                        <option value="" disabled selected>Select Model</option>
+                        {% for model in models %}
                         <option value="{{ model.id }}">{{ model }}</option>
-                    {% endfor %}
-                </select>
+                        {% endfor %}
+                    </select>
 
-                <input type="text" name="name" class="form-control"
-                       placeholder="Customer Name" required>
+                    <input type="text" name="name" class="form-control" placeholder="Customer Name" required>
 
-                <input type="email" name="email" class="form-control"
-                       placeholder="Email Address" required>
+                    <input type="email" name="email" class="form-control" placeholder="Email Address" required>
 
-                <input type="text" name="phone" class="form-control"
-                       placeholder="Phone Number" required>
+                    <input type="text" name="phone" class="form-control" placeholder="Phone Number" required>
 
-                <input type="date" name="appointment_date"
-                       class="form-control" required>
+                    <input type="date" name="appointment_date" class="form-control" required>
 
-                <input type="time" name="appointment_time"
-                       class="form-control" required>
+                    <input type="time" name="appointment_time" class="form-control" required>
 
-                <button type="submit" class="btn-save">
-                    Save Booking
-                </button>
-            </form>
-        </div>
+                    <button type="submit" class="btn-save">
+                        Save Booking
+                    </button>
+                </form>
+            </div>
 
-    </main>
-</div>
+        </main>
+    </div>
 </body>
+
 </html>

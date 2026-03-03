@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Booking - Models</title>
+
+    <link rel="icon" type="image/png" href="/static/assets/img/logo.jpg">
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+    <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* =============================
+       NAVBAR FIX
+    ============================= */
+        .main-header-section {
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        /* =============================
+       PAGE WRAPPER
+    ============================= */
+        .mreg-wrapper {
+            padding: 40px 20px;
+            background: #f5f6fa;
+            min-height: 70vh;
+        }
+
+        .mreg-card {
+            margin: auto;
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .mreg-title {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        /* =============================
+       TABLE STYLING (PROPER)
+    ============================= */
+        .table-box {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        .table thead {
+            background: #111;
+            color: #fff;
+        }
+
+        .table th {
+            padding: 14px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        .table td {
+            padding: 13px 12px;
+            text-align: center;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+
+        .table tbody tr {
+            transition: 0.25s ease;
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9ff;
+        }
+
+        /* =============================
+       EMPTY STATE
+    ============================= */
+        .empty-box {
+            text-align: center;
+            padding: 70px 20px;
+            background: #fafafa;
+            border-radius: 14px;
+            border: 1px dashed #ddd;
+        }
+
+        .empty-box h4 {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .empty-box p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =============================
+       FOOTER
+    ============================= */
+        .model-footer {
+            margin-top: 40px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Scroll Progress -->
+    <div id="scroll-progress-container">
+        <a href="javascript:void(0)" id="scroll-progress-link">
+            <div id="scroll-progress-bar"></div>
+        </a>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <div class="main-header-section">
+        <div class="navbar">
+            <!-- Left Logo -->
+            <a href="/">
+                <!-- ✅ IMPORTANT: id added -->
+                <div class="logo" id="navLogo">
+                    models<span>.</span>
+                </div>
+            </a>
+
+            <!-- Main Menu -->
+            <ul class="menu">
+                <li class="menu-sub-class"><a href="/model/">Models.</a><span class="menu-icon-cls">|</span></li>
+                <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
+                <li class="menu-sub-class"><a href="/fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
+                <li class="menu-sub-class"><a href="/beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+                {% if request.session.userid %}
+                <li class="menu-sub-class">
+                    <a href="{% url 'my_bookings' %}">My Booking</a><span class="menu-icon-cls">|</span>
+                </li>
+                {% endif %}
+                <li class="menu-sub-class"><a href="/about/">About</a></li>
+
+
+            </ul>
+
+            <!-- Right Section -->
+            <div class="login-section">
+                {% if request.session.userid %}
+                <span class="user-name">
+                    Hi, {{ request.session.name }}
+                </span>
+                |
+                <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+
+        </div>
+        <hr>
+    </div>
+
+    <!-- ================= BOOKING SECTION ================= -->
+    <div class="mreg-wrapper">
+        <div class="mreg-card">
+
+            <h2 class="mreg-title">My Bookings</h2>
+
+            {% if bookings %}
+            <div class="table-box">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Model</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Date</th>
+                            <th>Download</th>
+                            <th>Time</th>
+                            <th>Booked On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                {% if booking.model_name %}
+                                {{ booking.model_name }}
+                                {% else %}
+                                {{ booking.model_profile }}
+                                {% endif %}
+                            </td>
+                            <td>{{ booking.name }}</td>
+                            <td>{{ booking.email }}</td>
+                            <td>{{ booking.phone }}</td>
+                            <td>{{ booking.appointment_date }}</td>
+                            <td>
+                                <a href="{% url 'download_booking_pdf' booking.id %}">
+                                    <img src="/static/assets/img/download_img.png" alt="Download"
+                                        style="width:30px; height:30px; object-fit:cover; cursor:pointer; transition:0.25s ease; vertical-align:middle;"
+                                        onmouseover="this.style.transform='scale(1.15)'"
+                                        onmouseout="this.style.transform='scale(1)'">
+                                </a>
+                            </td>
+                            <td>{{ booking.appointment_time }}</td>
+                            <td>{{ booking.created_at|date:"d M Y, h:i A" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-box">
+                <h4>No bookings found 😔</h4>
+                <p>Your appointments will appear here once you book.</p>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="model-footer">
+        <div class="footer-container">
+
+            <div class="footer-col">
+                <h4>Social Media</h4>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="/rankings/">Ranking</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/feedback/">Feedback</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Inside the Industry</h4>
+                <ul>
+                    <li><a href="/model/">Models</a></li>
+                    <li><a href="/creatives/">Creatives</a></li>
+                    <li><a href="/fashion/">Fashion</a></li>
+                    <li><a href="/beauty/">Beauty</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Model Website. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/assets/js/main.js"></script>
+    <script src="/static/assets/js/cursor-effect.js"></script>
+    ```
+
+</body>
+
+</html>

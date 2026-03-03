@@ -102,6 +102,7 @@ class Modeldetails(models.Model):
         return self.email
 
 class Appointment(models.Model):
+    
     model_profile = models.ForeignKey(
         ModelProfile,
         on_delete=models.CASCADE

@@ -18,4 +18,8 @@ urlpatterns = [
     path('signup/', views.signup),
     path("logout/", views.logout_view, name="logout"),
     path("book-appointment/<int:id>/", views.book_appointment, name="book_appointment"),
+    
+     path("my-bookings/", views.my_bookings, name="my_bookings"),
+    path("download-booking/<int:id>/", views.download_booking_pdf, name="download_booking_pdf"),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail,EmailMessage
 from django.utils import timezone
+from django.http import HttpResponse
 from django.utils.html import strip_tags
 
 from reportlab.lib.pagesizes import A4
@@ -663,3 +664,118 @@ def feedback(request):
 def logout_view(request):
     request.session.flush()   
     return redirect("/login/")
+
+def my_bookings(request):
+    user_email = request.session.get("email")
+
+    # 🔐 login check
+    if not user_email:
+        return redirect("login")
+
+    bookings = Appointment.objects.filter(
+        email=user_email
+    ).select_related("model_profile").order_by("-created_at")
+
+    context = {
+        "bookings": bookings,
+        "total_bookings": bookings.count(),
+    }
+
+    return render(request, "my_bookings.html", context)
+
+def download_booking_pdf(request, id):
+    user_email = request.session.get("email")
+
+    # 🔐 security: only owner can download
+    appointment = get_object_or_404(
+        Appointment,
+        id=id,
+        email=user_email
+    )
+
+    buffer = io.BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=A4)
+    width, height = A4
+
+    # ===== WATERMARK =====
+    pdf.saveState()
+    pdf.setFont("Helvetica-Bold", 100)
+    pdf.setFillColorRGB(0.93, 0.93, 0.93)
+    pdf.translate(width / 2, height / 2)
+    pdf.rotate(45)
+    pdf.drawCentredString(0, 0, "MODELS")
+    pdf.restoreState()
+
+    # ===== HEADER =====
+    pdf.setFillColorRGB(0.05, 0.12, 0.25)
+    pdf.rect(0, height - 90, width, 90, fill=1)
+
+    logo_path = finders.find("assets/img/logo.jpg")
+    if logo_path:
+        pdf.drawImage(logo_path, 40, height - 75, width=40, height=40, mask='auto')
+
+    pdf.setFillColor(colors.white)
+    pdf.setFont("Helvetica-Bold", 18)
+    pdf.drawString(100, height - 50, "MODELS")
+
+    pdf.setFont("Helvetica", 11)
+    pdf.drawString(100, height - 68, "Appointment Confirmation")
+
+    # ===== BOOKING INFO =====
+    pdf.setFillColor(colors.black)
+    pdf.setFont("Helvetica", 10)
+    pdf.drawString(40, height - 110, f"Booking ID: #{appointment.id}")
+    pdf.drawString(40, height - 125, f"Booking Date: {appointment.appointment_date}")
+
+    # ===== CUSTOMER BOX =====
+    box_y = height - 170
+    pdf.setStrokeColor(colors.grey)
+    pdf.rect(40, box_y - 90, width - 80, 90)
+
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(50, box_y - 20, "Customer Details")
+
+    pdf.setFont("Helvetica", 11)
+    pdf.drawString(50, box_y - 40, f"Name: {appointment.name}")
+    pdf.drawString(50, box_y - 55, f"Email: {appointment.email}")
+    pdf.drawString(50, box_y - 70, f"Phone: {appointment.phone}")
+
+    # ===== TABLE =====
+    table_y = box_y - 130
+
+    pdf.setFillColorRGB(0.2, 0.45, 0.75)
+    pdf.rect(40, table_y, width - 80, 25, fill=1)
+
+    pdf.setFillColor(colors.white)
+    pdf.setFont("Helvetica-Bold", 11)
+    pdf.drawString(50, table_y + 7, "Model")
+    pdf.drawString(220, table_y + 7, "Date")
+    pdf.drawString(330, table_y + 7, "Time")
+    pdf.drawString(420, table_y + 7, "Status")
+
+    row_y = table_y - 25
+    pdf.setFillColor(colors.black)
+    pdf.rect(40, row_y, width - 80, 25)
+
+    pdf.drawString(50, row_y + 7, appointment.model_name)
+    pdf.drawString(220, row_y + 7, str(appointment.appointment_date))
+    pdf.drawString(330, row_y + 7, str(appointment.appointment_time))
+    pdf.drawString(420, row_y + 7, "Confirmed")
+
+    # ===== FOOTER =====
+    pdf.setFillColorRGB(0.95, 0.95, 0.95)
+    pdf.rect(0, 0, width, 50, fill=1)
+
+    pdf.setFillColor(colors.black)
+    pdf.setFont("Helvetica", 9)
+    pdf.drawCentredString(width / 2, 30, "Thank you for choosing MODELS")
+    pdf.drawCentredString(width / 2, 18, "support@models.com | +91-9999999999")
+
+    pdf.showPage()
+    pdf.save()
+    buffer.seek(0)
+
+    response = HttpResponse(buffer, content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="Appointment_{appointment.id}.pdf"'
+
+    return response

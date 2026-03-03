@@ -72,7 +72,13 @@
         <li class="menu-sub-class"><a href="creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
         <li class="menu-sub-class"><a href="fashion/">Fashion.</a><span class="menu-icon-cls">|</span></li>
         <li class="menu-sub-class"><a href="beauty/">Beauty.</a><span class="menu-icon-cls">|</span></li>
+        {% if request.session.userid %}
+        <li class="menu-sub-class">
+          <a href="{% url 'my_bookings' %}">My Booking</a><span class="menu-icon-cls">|</span>
+        </li>
+        {% endif %}
         <li class="menu-sub-class"><a href="about/">About</a></li>
+
 
       </ul>
 
@@ -88,7 +94,6 @@
         <a href="{% url 'login' %}">Login</a>
         {% endif %}
       </div>
-
 
     </div>
     <hr>
@@ -113,7 +118,7 @@
       <!-- Slide 2 -->
       <div class="feature-slide">
         <div class="feature-image">
-          <img src="/static/assets/img/model2.jpg" alt="Model 2">
+          <img src="/static/assets/img/model1.jpg" alt="Model 2">
         </div>
         <div class="feature-content">
           <span class="feature-category">interviews</span>
@@ -710,13 +715,13 @@
 
   <!-- main js file -->
   <script src="/static/assets/js/main.js"></script>
-  
+
   <!-- cursor js file -->
   <script src="/static/assets/js/cursor-effect.js"></script>
 
   <!-- scroll type js file -->
   <script src="/static/assets/js/fashion_scroll.js"></script>
-  
+
   <!-- bottom to top js file -->
   <script src="/static/assets/js/top_btn.js"></script>
 
