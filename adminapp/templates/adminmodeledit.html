@@ -171,10 +171,16 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Date of Birth</label>
-                        <input type="date" name="date_of_birth" value="{{ details.date_of_birth }}">
-                    </div>
+<div class="form-group">
+    <label>Date of Birth</label>
+    <input 
+        type="text" 
+        name="date_of_birth" 
+        value="{{ details.date_of_birth|default:'' }}" 
+        placeholder="dd-mm-yyyy"
+        class="form-control"
+    >
+</div>
 
                     <div class="form-group">
                         <label>Country</label>
@@ -185,6 +191,7 @@
                         <label>Agency</label>
                         <input type="text" name="agency" value="{{ details.agency }}">
                     </div>
+                    
 
                     <div class="form-group full-width">
                         <label>Introduction</label>
