@@ -115,9 +115,14 @@ def adminaddmodel(request):
         runway_shows = request.POST.get("modelShows") or 0
         awards = request.POST.get("modelAwards")
 
-        # Images
+        # 🔑 Username & Password
+        username = request.POST.get("modelusername")
+        password = request.POST.get("modelpassword")
+
+        # Profile Image
         profile_image = request.FILES.get("modelProfileImg")
 
+        # Gallery Images
         image1 = request.FILES.get("modelImage1")
         image2 = request.FILES.get("modelImage2")
         image3 = request.FILES.get("modelImage3")
@@ -149,6 +154,12 @@ def adminaddmodel(request):
             years_active=years_active,
             runway_shows=runway_shows,
             awards=awards,
+
+            # 🔑 Save login info
+            username=username,
+            password=password,
+
+            # Images
             image_1=image1,
             image_2=image2,
             image_3=image3,
@@ -164,7 +175,6 @@ def adminaddmodel(request):
         return redirect("adminmodels")
 
     return render(request, "adminadd-model.html")
-
 def adminbookings(request):
     appointments = Appointment.objects.order_by('-created_at')  # newest first
     return render(request, 'adminbookings.html', {
@@ -281,6 +291,7 @@ def adminmodeledit(request, id):
     if request.method == "POST":
         model.full_name = request.POST.get("full_name")
         model.save()
+
         details.email = request.POST.get("email")
         details.gender = request.POST.get("gender")
         details.date_of_birth = request.POST.get("date_of_birth")
@@ -288,7 +299,13 @@ def adminmodeledit(request, id):
         details.agency = request.POST.get("agency")
         details.introduction = request.POST.get("introduction")
         details.about = request.POST.get("about")
+
+        # USERNAME & PASSWORD UPDATE
+        details.username = request.POST.get("username")
+        details.password = request.POST.get("password")
+
         details.save()
+
         messages.success(request, "Model updated successfully")
         return redirect("adminmodels")
 

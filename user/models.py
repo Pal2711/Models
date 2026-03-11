@@ -86,6 +86,9 @@ class Modeldetails(models.Model):
 
     awards = models.CharField(max_length=255, blank=True, null=True)
     
+    username = models.CharField(max_length=100, default="user")
+    password = models.CharField(max_length=100, default="123456")
+    
     image_1 = models.ImageField(upload_to='model_profiles/multiple_images/', blank=True, null=True)
     image_2 = models.ImageField(upload_to='model_profiles/multiple_images/', blank=True, null=True)
     image_3 = models.ImageField(upload_to='model_profiles/multiple_images/', blank=True, null=True)
