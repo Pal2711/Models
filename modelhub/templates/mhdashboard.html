@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ profile.full_name }} - Model Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0f1117;
+            color: #e4e6eb;
+        }
+
+        /* Layout */
+
+        .main {
+            display: flex;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #161b22;
+            color: white;
+            position: fixed;
+            border-right: 1px solid #2d333b;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            padding: 25px 0;
+            margin: 0;
+            font-weight: 600;
+            border-bottom: 1px solid #2d333b;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            margin: 5px 0;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 15px 25px;
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #21262d;
+            color: white;
+            border-left: 4px solid #58a6ff;
+        }
+
+        /* Content */
+
+        .content {
+            margin-left: 240px;
+            width: 100%;
+            padding: 30px;
+        }
+
+        /* Container */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Profile Card */
+
+        .profile-card {
+            background: #161b22;
+            padding: 35px;
+            border-radius: 12px;
+            border: 1px solid #2d333b;
+        }
+
+        .profile-top {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .profile-img img {
+            width: 370px;
+            border-radius: 12px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h1 {
+            margin-top: 0;
+            font-size: 30px;
+            color: #f0f6fc;
+        }
+
+        .details p {
+            font-size: 15px;
+            padding: 8px 0;
+            border-bottom: 1px solid #2d333b;
+            color: #c9d1d9;
+        }
+
+        /* Gallery */
+
+        .gallery-title {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #f0f6fc;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 700px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: 0.3s;
+            border: 1px solid #2d333b;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+
+            <h2>Model Panel</h2>
+
+            <ul>
+
+                <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
+
+                <li><a href="{% url 'mhbooking' %}">Bookings</a></li>
+
+                <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
+
+                <li><a href="{% url 'mhdelete' %}">Delete Profile</a></li>
+
+
+                <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Content -->
+
+        <div class="content">
+
+            <div class="container">
+
+                <!-- Profile Card -->
+
+                <div class="profile-card">
+
+                    <div class="profile-top">
+
+                        <div class="profile-img">
+                            {% if profile.profile_image %}
+                            <img src="{{ profile.profile_image.url }}">
+                            {% endif %}
+                        </div>
+
+                        <div class="profile-info">
+
+                            <h1>{{ profile.full_name }}</h1>
+
+                            <div class="details">
+
+                                <p><strong>Email :</strong> {{ model.email }}</p>
+
+                                <p><strong>Country :</strong> {{ model.country }}</p>
+
+                                <p><strong>Agency :</strong> {{ model.agency }}</p>
+
+                                <p><strong>Category :</strong> {{ model.category }}</p>
+
+                                <p><strong>Instagram Followers :</strong> {{ model.instagram_followers }}</p>
+
+                                <p><strong>Years Active :</strong> {{ model.years_active }}</p>
+
+                                <p><strong>Runway Shows :</strong> {{ model.runway_shows }}</p>
+
+                                <p><strong>Awards :</strong> {{ model.awards }}</p>
+
+                                <p><strong>Introduction :</strong> {{ model.introduction }}</p>
+
+                                <p><strong>About :</strong> {{ model.about }}</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Gallery -->
+
+                <h2 class="gallery-title">Model Gallery</h2>
+
+                <div class="gallery">
+
+                    {% if model.image_1 %}
+                    <img src="{{ model.image_1.url }}">
+                    {% endif %}
+
+                    {% if model.image_2 %}
+                    <img src="{{ model.image_2.url }}">
+                    {% endif %}
+
+                    {% if model.image_3 %}
+                    <img src="{{ model.image_3.url }}">
+                    {% endif %}
+
+                    {% if model.image_4 %}
+                    <img src="{{ model.image_4.url }}">
+                    {% endif %}
+
+                    {% if model.image_5 %}
+                    <img src="{{ model.image_5.url }}">
+                    {% endif %}
+
+                    {% if model.image_6 %}
+                    <img src="{{ model.image_6.url }}">
+                    {% endif %}
+
+                    {% if model.image_7 %}
+                    <img src="{{ model.image_7.url }}">
+                    {% endif %}
+
+                    {% if model.image_8 %}
+                    <img src="{{ model.image_8.url }}">
+                    {% endif %}
+
+                    {% if model.image_9 %}
+                    <img src="{{ model.image_9.url }}">
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ profile.full_name }} - Model Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0f1117;
+            color: #e4e6eb;
+        }
+
+        /* Layout */
+
+        .main {
+            display: flex;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #161b22;
+            color: white;
+            position: fixed;
+            border-right: 1px solid #2d333b;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            padding: 25px 0;
+            margin: 0;
+            font-weight: 600;
+            border-bottom: 1px solid #2d333b;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            margin: 5px 0;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 15px 25px;
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #21262d;
+            color: white;
+            border-left: 4px solid #58a6ff;
+        }
+
+        /* Content */
+
+        .content {
+            margin-left: 240px;
+            width: 100%;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Booking Section */
+
+        .gallery-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #f0f6fc;
+        }
+
+        .booking-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #161b22;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .booking-table th,
+        .booking-table td {
+            padding: 14px;
+            border-bottom: 1px solid #2d333b;
+            text-align: left;
+        }
+
+        .booking-table th {
+            background: #21262d;
+        }
+
+        .booking-table tr:hover {
+            background: #1c2128;
+        }
+
+        /* Delete Button */
+
+        .delete-btn {
+            background: #ff4d4d;
+            border: none;
+            padding: 7px 14px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .delete-btn:hover {
+            background: #d93636;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+
+            <h2>Model Panel</h2>
+
+            <ul>
+                <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'mhbooking' %}">Bookings</a></li>
+                <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
+                <li><a href="{% url 'mhdelete' %}">Delete Profile</a></li>
+                <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
+            </ul>
+
+        </div>
+
+
+        <!-- Content -->
+
+        <div class="content">
+
+            <div class="container">
+
+                <div class="booking-section">
+
+                    <h2 class="gallery-title">Recent Bookings</h2>
+
+                    <table class="booking-table">
+
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                        </tr>
+
+                        {% for a in appointments|slice:":5" %}
+
+                        <tr>
+                            <td>{{ a.name }}</td>
+                            <td>{{ a.email }}</td>
+                            <td>{{ a.phone }}</td>
+                            <td>{{ a.appointment_date }}</td>
+                            <td>{{ a.appointment_time }}</td>
+
+                            <td>
+
+                                <form method="POST" action="{% url 'mhdeletebooking' a.id %}"
+                                    onsubmit="return confirmDelete()">
+
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="delete-btn">Delete</button>
+
+                                </form>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="6">No bookings yet</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function confirmDelete() {
+
+            return confirm("Are you sure you want to delete this booking?");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

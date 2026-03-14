@@ -4,6 +4,7 @@ from user.models import *
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.utils import timezone
 
 def adminmodels(request):
     models = ModelProfile.objects.all()
@@ -20,6 +21,7 @@ def delete_model(request, id):
     return render(request, 'delete_model.html', {'model': model})
 
 def adminindex(request):
+
     # Totals
     total_models = ModelProfile.objects.count()
     total_users = Signup.objects.count()
@@ -31,7 +33,7 @@ def adminindex(request):
     recent_appointments = Appointment.objects.order_by('-created_at')[:5]
     recent_feedbacks = feedback.objects.order_by('-created')[:5]
     recent_users = Signup.objects.order_by('-created')[:5]
-    recent_models = ModelProfile.objects.order_by('-id')[:5]  # fallback using id for newest
+    recent_models = ModelProfile.objects.order_by('-id')[:5]
 
     activities = []
 
@@ -61,20 +63,21 @@ def adminindex(request):
 
     # Models
     for m in recent_models:
-        # Use latest timestamp from related Modeldetails if exists
+
         detail = Modeldetails.objects.filter(profile=m).order_by('-registered_at').first()
-        date = detail.registered_at if detail else None
-        # If no detail exists, fallback to a fake date (or just use now)
-        if not date:
-            import datetime
-            date = datetime.datetime.now()
+
+        if detail:
+            date = detail.registered_at
+        else:
+            date = timezone.now()   # ✅ FIXED
+
         activities.append({
             'type': 'Model',
             'message': f'New model added: {m.full_name}',
             'date': date
         })
 
-    # Sort activities by date descending and limit to 10
+    # Sort activities
     activities = sorted(activities, key=lambda x: x['date'], reverse=True)[:10]
 
     return render(request, 'adminindex.html', {
@@ -85,7 +88,6 @@ def adminindex(request):
         'total_contact': total_contact,
         'activities': activities
     })
-
 def adminlogin(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -175,6 +177,7 @@ def adminaddmodel(request):
         return redirect("adminmodels")
 
     return render(request, "adminadd-model.html")
+
 def adminbookings(request):
     appointments = Appointment.objects.order_by('-created_at')  # newest first
     return render(request, 'adminbookings.html', {

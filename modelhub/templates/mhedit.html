@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Model Profile</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0f1117;
+            color: #e4e6eb;
+        }
+
+        /* Layout */
+        .main {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #161b22;
+            color: white;
+            position: fixed;
+            border-right: 1px solid #2d333b;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            padding: 25px 0;
+            margin: 0;
+            font-weight: 600;
+            border-bottom: 1px solid #2d333b;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            margin: 5px 0;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 15px 25px;
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #21262d;
+            color: white;
+            border-left: 4px solid #58a6ff;
+        }
+
+        /* Content */
+        .content {
+            margin-left: 240px;
+            width: 100%;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #161b22;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #2d333b;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #f0f6fc;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #2d333b;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #0f1117;
+            color: #e4e6eb;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        button {
+            background: #1a73e8;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1558b0;
+        }
+
+        .current-img {
+            width: 190px;
+            height: 350px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid #2d333b;
+        }
+
+        .current-img:hover {
+            transform: scale(1.05);
+            border: 2px solid #1a73e8;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 700px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #2d333b;
+            transition: transform 0.2s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+            border: 2px solid #1a73e8;
+        }
+
+        /* Hide actual file inputs */
+        input[type="file"] {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="main">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Model Panel</h2>
+            <ul>
+                <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'mhbooking' %}">Bookings</a></li>
+                <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
+                <li><a href="{% url 'mhdelete' %}">Delete Profile</a></li>
+                <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="container">
+
+                <h2>Edit Profile</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Profile Image -->
+                    <label>Profile Image (click to change)</label><br>
+                    {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" class="current-img" id="profilePreview">
+                    {% else %}
+                    <img src="https://via.placeholder.com/150" class="current-img" id="profilePreview">
+                    {% endif %}
+                    <input type="file" name="profile_image" id="profileInput">
+
+                    <!-- Personal Info -->
+                    <div class="grid">
+                        <div>
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" value="{{ profile.full_name }}">
+                        </div>
+                        <div>
+                            <label>Email</label>
+                            <input type="email" name="email" value="{{ model.email }}">
+                        </div>
+                        <div>
+                            <label>Username</label>
+                            <input type="text" name="username" value="{{ model.username }}">
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="text" name="password" value="{{ model.password }}">
+                        </div>
+                        <div>
+    <label>Gender</label>
+    <select name="gender">
+        <option value="male" {% if model.gender == "male" %}selected{% endif %}>Male</option>
+        <option value="female" {% if model.gender == "female" %}selected{% endif %}>Female</option>
+        <option value="other" {% if model.gender == "other" %}selected{% endif %}>Other</option>
+    </select>
+</div>
+                        <div>
+                            <label>Date of Birth</label>
+                            <input type="text" name="date_of_birth" value="{{ model.date_of_birth }}">
+                        </div>
+                        <div>
+                            <label>Country</label>
+                            <input type="text" name="country" value="{{ model.country }}">
+                        </div>
+                        <div>
+                            <label>Agency</label>
+                            <input type="text" name="agency" value="{{ model.agency }}">
+                        </div>
+                        <div>
+                            <label>Category</label>
+                            <input type="text" name="category" value="{{ model.category }}">
+                        </div>
+                        <div>
+                            <label>Instagram Followers</label>
+                            <input type="text" name="instagram_followers" value="{{ model.instagram_followers }}">
+                        </div>
+                        <div>
+                            <label>Years Active</label>
+                            <input type="number" name="years_active" value="{{ model.years_active }}">
+                        </div>
+                        <div>
+                            <label>Runway Shows</label>
+                            <input type="number" name="runway_shows" value="{{ model.runway_shows }}">
+                        </div>
+                        <div>
+                            <label>Awards</label>
+                            <input type="text" name="awards" value="{{ model.awards }}">
+                        </div>
+                    </div>
+
+                    <label>Introduction</label>
+                    <textarea name="introduction">{{ model.introduction }}</textarea>
+
+                    <label>About</label>
+                    <textarea name="about">{{ model.about }}</textarea>
+
+                    <!-- Gallery -->
+                    <h3>Gallery Images (click to change)</h3>
+<div class="gallery">
+
+    {% if model.image_1 %}
+        <img src="{{ model.image_1.url }}" class="gallery-img" data-input="image_1">
+        <input type="file" name="image_1" id="image_1">
+    {% endif %}
+
+    {% if model.image_2 %}
+        <img src="{{ model.image_2.url }}" class="gallery-img" data-input="image_2">
+        <input type="file" name="image_2" id="image_2">
+    {% endif %}
+
+    {% if model.image_3 %}
+        <img src="{{ model.image_3.url }}" class="gallery-img" data-input="image_3">
+        <input type="file" name="image_3" id="image_3">
+    {% endif %}
+
+    {% if model.image_4 %}
+        <img src="{{ model.image_4.url }}" class="gallery-img" data-input="image_4">
+        <input type="file" name="image_4" id="image_4">
+    {% endif %}
+
+    {% if model.image_5 %}
+        <img src="{{ model.image_5.url }}" class="gallery-img" data-input="image_5">
+        <input type="file" name="image_5" id="image_5">
+    {% endif %}
+
+    {% if model.image_6 %}
+        <img src="{{ model.image_6.url }}" class="gallery-img" data-input="image_6">
+        <input type="file" name="image_6" id="image_6">
+    {% endif %}
+
+    {% if model.image_7 %}
+        <img src="{{ model.image_7.url }}" class="gallery-img" data-input="image_7">
+        <input type="file" name="image_7" id="image_7">
+    {% endif %}
+
+    {% if model.image_8 %}
+        <img src="{{ model.image_8.url }}" class="gallery-img" data-input="image_8">
+        <input type="file" name="image_8" id="image_8">
+    {% endif %}
+
+    {% if model.image_9 %}
+        <img src="{{ model.image_9.url }}" class="gallery-img" data-input="image_9">
+        <input type="file" name="image_9" id="image_9">
+    {% endif %}
+
+</div>
+                    <br><br>
+                    <button type="submit">Update Profile</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Profile image click opens file input
+        const profileImg = document.getElementById('profilePreview');
+        const profileInput = document.getElementById('profileInput');
+
+        profileImg.addEventListener('click', () => {
+            profileInput.click();
+        });
+
+        profileInput.addEventListener('change', () => {
+            const file = profileInput.files[0];
+            if (file) {
+                profileImg.src = URL.createObjectURL(file);
+            }
+        });
+
+        // Gallery images click opens corresponding file input
+        document.querySelectorAll('.gallery-img').forEach(img => {
+            const inputId = img.dataset.input;
+            const inputEl = document.getElementById(inputId);
+
+            img.addEventListener('click', () => {
+                inputEl.click();
+            });
+
+            inputEl.addEventListener('change', () => {
+                const file = inputEl.files[0];
+                if (file) {
+                    img.src = URL.createObjectURL(file);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

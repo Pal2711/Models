@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at top,#1a1a2e,#0f0f1a,#000);
+}
+
+/* Login Card */
+
+.login-box{
+    width:340px;
+    padding:40px;
+    border-radius:15px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 0 25px rgba(0,0,0,0.6);
+    text-align:center;
+}
+
+/* Title */
+
+.login-box h2{
+    color:#fff;
+    margin-bottom:25px;
+    letter-spacing:1px;
+}
+
+/* Inputs */
+
+.login-box input{
+    width:100%;
+    padding:12px;
+    margin:12px 0;
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:8px;
+    color:white;
+    outline:none;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.login-box input::placeholder{
+    color:#bbb;
+}
+
+.login-box input:focus{
+    border-color:#00f7ff;
+    box-shadow:0 0 10px #00f7ff;
+}
+
+/* Button */
+
+.login-box button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(45deg,#00f7ff,#00bfff);
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.login-box button:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px #00f7ff;
+}
+
+/* Error */
+
+.error{
+    color:#ff4d4d;
+    margin-top:10px;
+    font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<h2>Model Hub Login</h2>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<input type="text" name="username" placeholder="Username">
+
+<input type="password" name="password" placeholder="Password">
+
+<button type="submit">Login</button>
+
+</form>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+</div>
+
+</body>
+</html>

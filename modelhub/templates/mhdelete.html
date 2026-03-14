@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Delete Profile</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#0f1117;
+    color:#e4e6eb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.confirm-box{
+    background:#161b22;
+    padding:35px 60px;
+    border-radius:12px;
+    border:1px solid #2d333b;
+    text-align:center;
+}
+
+button{
+    padding:12px 25px;
+    border-radius:6px;
+    border:none;
+    cursor:pointer;
+    background:#e74c3c;
+    color:white;
+    margin-right:15px;
+}
+
+button:hover{
+    background:#c0392b;
+}
+
+a.cancel{
+    padding:12px 25px;
+    border-radius:6px;
+    text-decoration:none;
+    color:white;
+    background:#555;
+}
+
+a.cancel:hover{
+    background:#333;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="confirm-box">
+
+<h2>Are you sure you want to delete your profile?</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<button type="submit">Yes, Delete</button>
+
+<a href="{% url 'mhdashboard' %}" class="cancel">Cancel</a>
+
+</form>
+
+</div>
+
+</body>
+</html>
