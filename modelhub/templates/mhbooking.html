@@ -1,226 +1,438 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>{{ profile.full_name }} - Model Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.full_name }} - Model Bookings</title>
 
     <style>
-        body {
+        /* ===== DARK THEME - MODERN TOP NAVIGATION ===== */
+        * {
             margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #0f1117;
-            color: #e4e6eb;
-        }
-
-        /* Layout */
-
-        .main {
-            display: flex;
-        }
-
-        /* Sidebar */
-
-        .sidebar {
-            width: 240px;
-            height: 100vh;
-            background: #161b22;
-            color: white;
-            position: fixed;
-            border-right: 1px solid #2d333b;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            padding: 25px 0;
-            margin: 0;
-            font-weight: 600;
-            border-bottom: 1px solid #2d333b;
-        }
-
-        .sidebar ul {
-            list-style: none;
             padding: 0;
-            margin: 0;
+            box-sizing: border-box;
         }
 
-        .sidebar ul li {
-            margin: 5px 0;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0a0c10;
+            color: #e9edf2;
+            line-height: 1.5;
         }
 
-        .sidebar ul li a {
+        /* ===== TOP NAVIGATION BAR ===== */
+        .top-nav {
+            background: #111317;
+            border-bottom: 1px solid #2a2e36;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e2e8f0, #9ca3af);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            padding: 18px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links li a {
             display: block;
-            padding: 15px 25px;
-            color: #c9d1d9;
+            padding: 10px 20px;
+            color: #cbd5e6;
             text-decoration: none;
-            font-size: 15px;
-            transition: 0.3s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 40px;
+            transition: all 0.2s ease;
         }
 
-        .sidebar ul li a:hover {
-            background: #21262d;
-            color: white;
-            border-left: 4px solid #58a6ff;
+        .nav-links li a:hover {
+            background: #2a2e3a;
+            color: #ffffff;
         }
 
-        /* Content */
-
-        .content {
-            margin-left: 240px;
-            width: 100%;
-            padding: 30px;
+        .nav-links li a.active {
+            background: #2a2e3a;
+            color: #58a6ff;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 40px 32px;
+            min-height: calc(100vh - 70px);
         }
 
-        /* Booking Section */
+        /* ===== BOOKING SECTION HEADER ===== */
+        .booking-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+            gap: 16px;
+        }
 
-        .gallery-title {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            font-size: 26px;
-            font-weight: 600;
-            color: #f0f6fc;
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #eef2ff;
+            letter-spacing: -0.3px;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4b5563;
+            border-radius: 4px;
+        }
+
+        .booking-stats {
+            background: #111418;
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid #2a2e36;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .booking-stats span {
+            color: #58a6ff;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* ===== BOOKING TABLE - DARK MODERN ===== */
+        .table-wrapper {
+            background: #111418;
+            border-radius: 20px;
+            border: 1px solid #2a2e36;
+            overflow-x: auto;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .booking-table {
             width: 100%;
             border-collapse: collapse;
-            background: #161b22;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .booking-table th,
-        .booking-table td {
-            padding: 14px;
-            border-bottom: 1px solid #2d333b;
-            text-align: left;
+            min-width: 800px;
         }
 
         .booking-table th {
-            background: #21262d;
+            padding: 18px 20px;
+            background: #1a1e26;
+            color: #e2e8f0;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #2a2e36;
+            text-align: left;
+        }
+
+        .booking-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #23272f;
+            color: #cbd5e6;
+            font-size: 0.9rem;
+            vertical-align: middle;
         }
 
         .booking-table tr:hover {
-            background: #1c2128;
+            background: #1a1e26;
+            transition: background 0.2s ease;
+        }
+
+        .booking-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(88, 166, 255, 0.15);
+            color: #58a6ff;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .status-badge.confirmed {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .status-badge.completed {
+            background: rgba(156, 163, 175, 0.15);
+            color: #9ca3af;
+            border-color: rgba(156, 163, 175, 0.3);
         }
 
         /* Delete Button */
-
         .delete-btn {
-            background: #ff4d4d;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
             border: none;
-            padding: 7px 14px;
+            padding: 8px 18px;
             color: white;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
         .delete-btn:hover {
-            background: #d93636;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(220, 38, 38, 0.3);
+        }
+
+        .delete-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .empty-state h3 {
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .empty-state p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Info Banner */
+        .info-banner {
+            margin-top: 20px;
+            text-align: center;
+            padding: 14px;
+            background: #111418;
+            border-radius: 12px;
+            border: 1px solid #2a2e36;
+        }
+
+        .info-banner span {
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+
+        .info-banner a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        .info-banner a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 12px 20px;
+            }
+            .logo h2 {
+                padding: 8px 0;
+            }
+            .nav-links {
+                justify-content: center;
+                padding-bottom: 12px;
+            }
+            .main-content {
+                padding: 28px 20px;
+            }
+            .page-title {
+                font-size: 1.5rem;
+            }
+            .booking-table th,
+            .booking-table td {
+                padding: 12px 16px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .nav-links li a {
+                padding: 6px 14px;
+                font-size: 0.85rem;
+            }
+            .booking-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .booking-stats {
+                align-self: flex-start;
+            }
+        }
+
+        /* Scrollbar Dark */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1e26;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .booking-section {
+            animation: fadeIn 0.4s ease;
         }
     </style>
-
 </head>
-
 <body>
 
-    <div class="main">
-
-        <!-- Sidebar -->
-
-        <div class="sidebar">
-
-            <h2>Model Panel</h2>
-
-            <ul>
-                <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'mhbooking' %}">Bookings</a></li>
-                <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
-                <li><a href="{% url 'mhdelete' %}">Delete Profile</a></li>
-                <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
-            </ul>
-
+<!-- TOP NAVIGATION BAR - NO SIDEBAR -->
+<div class="top-nav">
+    <div class="nav-container">
+        <div class="logo">
+            <h2>✦ MODEL STUDIO</h2>
         </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'mhbooking' %}" class="active">Bookings</a></li>
+            <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
+            <li><a href="{% url 'mhdelete' %}">Delete Profile</a></li>
+            <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
+        </ul>
+    </div>
+</div>
 
+<!-- MAIN CONTENT -->
+<div class="main-content">
 
-        <!-- Content -->
+    <div class="booking-section">
 
-        <div class="content">
-
-            <div class="container">
-
-                <div class="booking-section">
-
-                    <h2 class="gallery-title">Recent Bookings</h2>
-
-                    <table class="booking-table">
-
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Action</th>
-                        </tr>
-
-                        {% for a in appointments|slice:":5" %}
-
-                        <tr>
-                            <td>{{ a.name }}</td>
-                            <td>{{ a.email }}</td>
-                            <td>{{ a.phone }}</td>
-                            <td>{{ a.appointment_date }}</td>
-                            <td>{{ a.appointment_time }}</td>
-
-                            <td>
-
-                                <form method="POST" action="{% url 'mhdeletebooking' a.id %}"
-                                    onsubmit="return confirmDelete()">
-
-                                    {% csrf_token %}
-
-                                    <button type="submit" class="delete-btn">Delete</button>
-
-                                </form>
-                            </td>
-
-                        </tr>
-
-                        {% empty %}
-
-                        <tr>
-                            <td colspan="6">No bookings yet</td>
-                        </tr>
-
-                        {% endfor %}
-
-                    </table>
-
-                </div>
-
+        <!-- Header with Stats -->
+        <div class="booking-header">
+            <h1 class="page-title">📅 Recent Bookings</h1>
+            <div class="booking-stats">
+                📋 Total: <span>{{ appointments|length }}</span> bookings
             </div>
-
         </div>
+
+        <!-- Table Wrapper -->
+        <div class="table-wrapper">
+            <table class="booking-table">
+                <thead>
+                    <tr>
+                        <th>Client Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in appointments|slice:":5" %}
+                    <tr>
+                        <td><strong>{{ a.name }}</strong></td>
+                        <td>{{ a.email }}</td>
+                        <td>{{ a.phone }}</td>
+                        <td>{{ a.appointment_date }}</td>
+                        <td>{{ a.appointment_time }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'mhdeletebooking' a.id %}"
+                                onsubmit="return confirmDelete()" style="display: inline-block;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <div class="empty-icon">📭</div>
+                                <h3>No Bookings Yet</h3>
+                                <p>Your upcoming bookings will appear here</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Optional: Show message if more than 5 bookings exist -->
+        {% if appointments|length > 5 %}
+        <div class="info-banner">
+            <span>📌 Showing latest 5 bookings. <a href="#">View all bookings</a></span>
+        </div>
+        {% endif %}
 
     </div>
 
+</div>
 
-    <script>
-
-        function confirmDelete() {
-
-            return confirm("Are you sure you want to delete this booking?");
-
-        }
-
-    </script>
+<script>
+    function confirmDelete() {
+        return confirm("⚠️ Are you sure you want to delete this booking?\nThis action cannot be undone.");
+    }
+</script>
 
 </body>
-
 </html>

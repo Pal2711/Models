@@ -8,26 +8,28 @@
   <link rel="stylesheet" href="/static/assets/css/styles.css">
   <link rel="stylesheet" href="/static/assets/css/cursor-effect.css">
 
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
+
+  <!-- Scroll Progress -->
   <div id="scroll-progress-container">
     <a href="javascript:void(0)" id="scroll-progress-link">
       <div id="scroll-progress-bar"></div>
     </a>
   </div>
 
+  <!-- Navbar -->
   <div class="main-header-section">
     <div class="navbar">
-      <!-- Left Logo -->
       <a href="/">
         <div class="logo">
           models<span>.</span>
         </div>
       </a>
 
-      <!-- Main Menu -->
       <ul class="menu">
         <li class="menu-sub-class"><a href="/model/">Models.</a><span class="menu-icon-cls">|</span></li>
         <li class="menu-sub-class"><a href="/creatives/">Creatives.</a><span class="menu-icon-cls">|</span></li>
@@ -36,7 +38,6 @@
         <li class="menu-sub-class"><a href="/about/">About</a></li>
       </ul>
 
-      <!-- Right Section -->
       <div class="login-section">
         {% if request.session.userid %}
         <span class="user-name">
@@ -52,7 +53,7 @@
     <hr>
   </div>
 
-
+  <!-- Login Section -->
   <section class="auth-section">
     <div class="auth-box">
 
@@ -62,44 +63,56 @@
         {% csrf_token %}
 
         {% if error %}
-        {% if error %}
         <p style="
-    color: #d32f2f;
-    background-color: #fdecea;
-    border: 1px solid #f5c6cb;
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    margin-bottom: 12px;
-    position: relative;
-">
+            color: #d32f2f;
+            background-color: #fdecea;
+            border: 1px solid #f5c6cb;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            position: relative;
+        ">
           {{ error }}
           <span onclick="
-        const el = this.parentElement;
-        el.style.transition = 'opacity 0.3s';
-        el.style.opacity = 0;
-        setTimeout(function(){ el.style.display='none'; }, 300);
-    " style="
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 16px;
-    ">&times;</span>
+            const el = this.parentElement;
+            el.style.transition = 'opacity 0.3s';
+            el.style.opacity = 0;
+            setTimeout(function(){ el.style.display='none'; }, 300);
+          " style="
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+          ">&times;</span>
         </p>
         {% endif %}
 
-        {% endif %}
-
+        <!-- Name -->
         <div class="auth-field">
           <label>Name</label>
           <input type="text" name="name" placeholder="Name" required>
         </div>
 
-        <div class="auth-field">
+        <!-- Password -->
+        <div class="auth-field" style="position: relative;">
           <label>Password</label>
-          <input type="password" name="password" placeholder="Password" required>
+
+          <input type="password" id="password" name="password" placeholder="Password" required
+            style="padding-right: 40px;">
+
+          <span onclick="togglePassword()" style="
+              position: absolute;
+              right: 12px;
+              top: 38px;
+              cursor: pointer;
+              color: #666;
+              font-size: 16px;
+          ">
+            <i id="eyeIcon" class="fa-solid fa-eye"></i>
+          </span>
         </div>
 
         <button type="submit" class="auth-btn">Login</button>
@@ -108,17 +121,16 @@
           Don't have an account?
           <a href="/signup/">Sign up</a>
         </p>
-      </form>
 
+      </form>
 
     </div>
   </section>
 
-
+  <!-- Footer -->
   <footer class="model-footer">
     <div class="footer-container">
 
-      <!-- Social Media -->
       <div class="footer-col">
         <h4>Social Media</h4>
         <div class="footer-social">
@@ -129,7 +141,6 @@
         </div>
       </div>
 
-      <!-- Explore -->
       <div class="footer-col">
         <h4>Explore</h4>
         <ul>
@@ -137,13 +148,9 @@
           <li><a href="/about/">About</a></li>
           <li><a href="/contact/">Contact</a></li>
           <li><a href="/feedback/">Feedback</a></li>
-
-
-
         </ul>
       </div>
 
-      <!-- Inside the Industry -->
       <div class="footer-col">
         <h4>Inside the Industry</h4>
         <ul>
@@ -160,22 +167,28 @@
       <p>© 2026 Model Website. All Rights Reserved.</p>
     </div>
   </footer>
-  <!-- Footer Section End -->
 
+  <!-- Scripts -->
   <script src="/static/assets/js/main.js"></script>
   <script src="/static/assets/js/cursor-effect.js"></script>
 
+  <!-- Password Toggle Script -->
   <script>
-    function openLightbox(src) {
-      document.getElementById("lightbox").style.display = "flex";
-      document.getElementById("lightbox-img").src = src;
-    }
+    function togglePassword() {
+      const passwordInput = document.getElementById("password");
+      const eyeIcon = document.getElementById("eyeIcon");
 
-    function closeLightbox() {
-      document.getElementById("lightbox").style.display = "none";
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+      } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+      }
     }
   </script>
 
 </body>
-
 </html>

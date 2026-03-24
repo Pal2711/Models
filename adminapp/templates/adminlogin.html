@@ -5,8 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Login</title>
-    <link rel="stylesheet" href="/static/admin/css/style.css">
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         .login-container {
             display: flex;
             justify-content: center;
@@ -83,6 +89,30 @@
             color: #808080;
         }
 
+        /* PASSWORD TOGGLE */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #b0b0b0;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .toggle-password:hover {
+            color: #ffffff;
+        }
+
         .login-btn {
             width: 100%;
             padding: 14px;
@@ -103,59 +133,15 @@
             transform: translateY(-2px);
         }
 
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .error-message {
-            background-color: #dc3545;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
             }
-
-            25% {
-                transform: translateX(-10px);
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
-
-            75% {
-                transform: translateX(10px);
-            }
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .remember-me input {
-            width: auto;
-            margin-right: 8px;
-            cursor: pointer;
-        }
-
-        .remember-me label {
-            margin: 0;
-            cursor: pointer;
-            font-size: 14px;
-            color: #b0b0b0;
         }
     </style>
 </head>
@@ -163,25 +149,31 @@
 <body>
     <div class="login-container">
         <div class="login-box">
+
             <div class="login-header">
                 <span class="login-icon">🔐</span>
                 <h1>Admin Panel</h1>
                 <p>Sign in to access your dashboard</p>
             </div>
 
-            <div id="errorMessage" class="error-message"></div>
-            <form id="loginForm" method="POST" action="">
+            <form method="POST">
                 {% csrf_token %}
+
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required
-                        autocomplete="username">
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required
-                        autocomplete="current-password">
+
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <span class="toggle-password" onclick="togglePassword()">
+                            <span id="eyeIcon">👁</span>
+                        </span>
+                    </div>
+
                 </div>
 
                 <button type="submit" class="login-btn">Login</button>
@@ -190,7 +182,20 @@
         </div>
     </div>
 
-    <script src="/static/admin/js/login.js"></script>
-</body>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
 
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.textContent = "🙈";
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.textContent = "👁";
+            }
+        }
+    </script>
+
+</body>
 </html>

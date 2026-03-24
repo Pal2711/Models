@@ -1,74 +1,336 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Delete Profile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Profile - Model Studio</title>
 
-<style>
+    <style>
+        /* ===== DARK THEME - MODERN TOP NAVIGATION ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body{
-    font-family:Arial;
-    background:#0f1117;
-    color:#e4e6eb;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0a0c10;
+            color: #e9edf2;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
 
-.confirm-box{
-    background:#161b22;
-    padding:35px 60px;
-    border-radius:12px;
-    border:1px solid #2d333b;
-    text-align:center;
-}
+        /* ===== TOP NAVIGATION BAR ===== */
+        .top-nav {
+            background: #111317;
+            border-bottom: 1px solid #2a2e36;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
 
-button{
-    padding:12px 25px;
-    border-radius:6px;
-    border:none;
-    cursor:pointer;
-    background:#e74c3c;
-    color:white;
-    margin-right:15px;
-}
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
 
-button:hover{
-    background:#c0392b;
-}
+        .logo h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e2e8f0, #9ca3af);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            padding: 18px 0;
+        }
 
-a.cancel{
-    padding:12px 25px;
-    border-radius:6px;
-    text-decoration:none;
-    color:white;
-    background:#555;
-}
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
 
-a.cancel:hover{
-    background:#333;
-}
+        .nav-links li a {
+            display: block;
+            padding: 10px 20px;
+            color: #cbd5e6;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 40px;
+            transition: all 0.2s ease;
+        }
 
-</style>
+        .nav-links li a:hover {
+            background: #2a2e3a;
+            color: #ffffff;
+        }
 
+        .nav-links li a.active {
+            background: #2a2e3a;
+            color: #58a6ff;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 32px;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== DELETE CONFIRMATION CARD ===== */
+        .confirm-card {
+            background: #111418;
+            border-radius: 28px;
+            border: 1px solid #2a2e36;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 48px 56px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .warning-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(231, 76, 60, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 3rem;
+        }
+
+        .confirm-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #eef2ff;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+        }
+
+        .warning-text {
+            color: #f87171;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            padding: 12px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .info-text {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            border: none;
+            padding: 12px 32px;
+            color: white;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .delete-btn:active {
+            transform: translateY(0);
+        }
+
+        .cancel-btn {
+            background: #2a2e36;
+            border: 1px solid #3b3f4a;
+            padding: 12px 32px;
+            color: #e2e8f0;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cancel-btn:hover {
+            background: #3b3f4a;
+            transform: translateY(-2px);
+            border-color: #4b5563;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 12px 20px;
+            }
+            .logo h2 {
+                padding: 8px 0;
+            }
+            .nav-links {
+                justify-content: center;
+                padding-bottom: 12px;
+            }
+            .main-content {
+                padding: 40px 20px;
+            }
+            .confirm-card {
+                padding: 32px 28px;
+            }
+            .confirm-card h2 {
+                font-size: 1.5rem;
+            }
+            .warning-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .nav-links li a {
+                padding: 6px 14px;
+                font-size: 0.85rem;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .delete-btn, .cancel-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .warning-icon {
+            animation: pulse 2s infinite;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1e26;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="confirm-box">
-
-<h2>Are you sure you want to delete your profile?</h2>
-
-<form method="POST">
-{% csrf_token %}
-
-<button type="submit">Yes, Delete</button>
-
-<a href="{% url 'mhdashboard' %}" class="cancel">Cancel</a>
-
-</form>
-
+<!-- TOP NAVIGATION BAR -->
+<div class="top-nav">
+    <div class="nav-container">
+        <div class="logo">
+            <h2>✦ MODEL STUDIO</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'mhbooking' %}">Bookings</a></li>
+            <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
+            <li><a href="{% url 'mhdelete' %}" class="active">Delete Profile</a></li>
+            <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
+        </ul>
+    </div>
 </div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="confirm-card">
+        <div class="warning-icon">
+            ⚠️
+        </div>
+        
+        <h2>Delete Your Profile?</h2>
+        
+        <div class="warning-text">
+            ⚡ This action cannot be undone
+        </div>
+        
+        <div class="info-text">
+            Your profile, all images, and associated data will be permanently deleted from our system. 
+            This includes your portfolio, gallery images, and booking history.
+        </div>
+        
+        <form method="POST" onsubmit="return confirmFinalDelete()">
+            {% csrf_token %}
+            
+            <div class="button-group">
+                <button type="submit" class="delete-btn">Yes, Permanently Delete</button>
+                <a href="{% url 'mhdashboard' %}" class="cancel-btn">Cancel, Keep Profile</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function confirmFinalDelete() {
+        return confirm("⚠️ WARNING: This action is permanent and cannot be undone!\n\nAre you absolutely sure you want to delete your profile?");
+    }
+</script>
 
 </body>
 </html>

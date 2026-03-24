@@ -1,282 +1,825 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ profile.full_name }} - Model Dashboard</title>
 
     <style>
-        body {
+        /* ===== DARK THEME - MODERN TOP NAVIGATION ===== */
+        * {
             margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #0f1117;
-            color: #e4e6eb;
-        }
-
-        /* Layout */
-
-        .main {
-            display: flex;
-        }
-
-        /* Sidebar */
-
-        .sidebar {
-            width: 240px;
-            height: 100vh;
-            background: #161b22;
-            color: white;
-            position: fixed;
-            border-right: 1px solid #2d333b;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            padding: 25px 0;
-            margin: 0;
-            font-weight: 600;
-            border-bottom: 1px solid #2d333b;
-        }
-
-        .sidebar ul {
-            list-style: none;
             padding: 0;
-            margin: 0;
+            box-sizing: border-box;
         }
 
-        .sidebar ul li {
-            margin: 5px 0;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0a0c10;
+            color: #e9edf2;
+            line-height: 1.5;
+            overflow-x: hidden;
         }
 
-        .sidebar ul li a {
+        /* ===== TOP NAVIGATION BAR (No Sidebar) ===== */
+        .top-nav {
+            background: #111317;
+            border-bottom: 1px solid #2a2e36;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e2e8f0, #9ca3af);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            padding: 18px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links li a {
             display: block;
-            padding: 15px 25px;
-            color: #c9d1d9;
+            padding: 10px 20px;
+            color: #cbd5e6;
             text-decoration: none;
-            font-size: 15px;
-            transition: 0.3s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .sidebar ul li a:hover {
-            background: #21262d;
-            color: white;
-            border-left: 4px solid #58a6ff;
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #58a6ff, #3b82f6);
+            transition: width 0.3s ease;
+            border-radius: 2px;
         }
 
-        /* Content */
-
-        .content {
-            margin-left: 240px;
-            width: 100%;
-            padding: 30px;
+        .nav-links li a:hover::before {
+            width: 70%;
         }
 
-        /* Container */
-
-        .container {
-            max-width: 1200px;
-            margin: auto;
+        .nav-links li a:hover {
+            background: #2a2e3a;
+            color: #ffffff;
+            transform: translateY(-2px);
         }
 
-        /* Profile Card */
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 40px 32px;
+            animation: fadeIn 0.6s ease;
+        }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== PROFILE CARD - DARK GLASS CARD ===== */
         .profile-card {
-            background: #161b22;
-            padding: 35px;
-            border-radius: 12px;
-            border: 1px solid #2d333b;
+            background: #111418;
+            border-radius: 28px;
+            border: 1px solid #2a2e36;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            padding: 36px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 48px;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            border-color: #4a5568;
+            box-shadow: 0 20px 40px -12px rgba(88, 166, 255, 0.2);
         }
 
         .profile-top {
             display: flex;
-            gap: 40px;
+            gap: 48px;
             align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .profile-img {
+            position: relative;
+            cursor: pointer;
         }
 
         .profile-img img {
-            width: 370px;
-            border-radius: 12px;
+            width: 280px;
+            height: auto;
+            border-radius: 24px;
+            object-fit: cover;
+            border: 2px solid #2a2e36;
+            background: #1a1e26;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .profile-img:hover img {
+            transform: scale(1.02);
+            border-color: #58a6ff;
+            box-shadow: 0 15px 30px -8px rgba(88, 166, 255, 0.3);
+        }
+
+        .profile-img::after {
+            content: '🔍 Click to enlarge';
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .profile-img:hover::after {
+            opacity: 1;
         }
 
         .profile-info {
             flex: 1;
+            min-width: 280px;
         }
 
         .profile-info h1 {
-            margin-top: 0;
-            font-size: 30px;
-            color: #f0f6fc;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #f0f3fa;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #ffffff, #b9c3db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Details Grid - Clean Dark Style */
+        .details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px 28px;
+            background: rgba(15, 18, 24, 0.6);
+            border-radius: 20px;
+            padding: 16px 20px;
         }
 
         .details p {
-            font-size: 15px;
-            padding: 8px 0;
-            border-bottom: 1px solid #2d333b;
-            color: #c9d1d9;
+            font-size: 0.9rem;
+            padding: 10px 0;
+            border-bottom: 1px solid #23272f;
+            color: #cfdbea;
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        /* Gallery */
+        .details p:hover {
+            background: rgba(88, 166, 255, 0.05);
+            padding-left: 8px;
+            border-bottom-color: #58a6ff;
+        }
+
+        .details p strong {
+            font-weight: 600;
+            color: #b9c7db;
+            min-width: 150px;
+            font-size: 0.85rem;
+            letter-spacing: 0.2px;
+            transition: color 0.3s ease;
+        }
+
+        .details p:hover strong {
+            color: #58a6ff;
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+            margin-top: 16px;
+        }
 
         .gallery-title {
-            margin-top: 50px;
-            margin-bottom: 20px;
-            font-size: 26px;
+            font-size: 1.8rem;
             font-weight: 600;
-            color: #f0f6fc;
+            color: #eef2ff;
+            letter-spacing: -0.3px;
+            position: relative;
+        }
+
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4b5563;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .gallery-header:hover .gallery-title::after {
+            width: 100px;
+            background: #58a6ff;
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 16px;
         }
 
-        .gallery img {
+        .gallery-item {
+            background: #111418;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #2a2e36;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: galleryReveal 0.5s ease forwards;
+        }
+
+        @keyframes galleryReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #58a6ff;
+            box-shadow: 0 25px 35px -12px rgba(88, 166, 255, 0.3);
+        }
+
+        .gallery-item img {
             width: 100%;
-            height: 700px;
+            height: auto;
             object-fit: cover;
-            border-radius: 12px;
-            transition: 0.3s;
-            border: 1px solid #2d333b;
+            display: block;
+            transition: all 0.5s ease;
         }
 
-        .gallery img:hover {
+        .gallery-item:hover img {
             transform: scale(1.05);
         }
+
+        /* Image Overlay Effect */
+        .gallery-item {
+            position: relative;
+        }
+
+        .gallery-item::before {
+            content: '🔍 Click to view';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 12px;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Empty gallery placeholder style */
+        .empty-gallery {
+            text-align: center;
+            padding: 60px;
+            background: #111418;
+            border-radius: 24px;
+            border: 1px dashed #2a2e36;
+            color: #6b7280;
+            transition: all 0.3s ease;
+        }
+
+        .empty-gallery:hover {
+            border-color: #58a6ff;
+            color: #9ca3af;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #111418;
+            border: 1px solid #58a6ff;
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #e9edf2;
+            font-size: 0.85rem;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 12px 20px;
+            }
+            .logo h2 {
+                padding: 8px 0;
+            }
+            .nav-links {
+                justify-content: center;
+                padding-bottom: 12px;
+            }
+            .main-content {
+                padding: 28px 20px;
+            }
+            .profile-top {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .profile-img img {
+                width: 240px;
+            }
+            .details p strong {
+                min-width: 130px;
+            }
+            .gallery-title {
+                font-size: 1.5rem;
+            }
+            .gallery-item img {
+                height: 240px;
+            }
+            .gallery-item::before {
+                font-size: 0.7rem;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .nav-links li a {
+                padding: 6px 14px;
+                font-size: 0.85rem;
+            }
+            .profile-card {
+                padding: 24px;
+            }
+            .details {
+                grid-template-columns: 1fr;
+                padding: 12px;
+            }
+            .gallery {
+                gap: 16px;
+            }
+            .gallery-item::before {
+                font-size: 0.6rem;
+                padding: 4px 10px;
+            }
+        }
+
+        /* Scrollbar Dark */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1e26;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #58a6ff;
+        }
     </style>
-
 </head>
-
 <body>
 
-    <div class="main">
-
-        <!-- Sidebar -->
-
-        <div class="sidebar">
-
-            <h2>Model Panel</h2>
-
-            <ul>
-
-                <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
-
-                <li><a href="{% url 'mhbooking' %}">Bookings</a></li>
-
-                <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
-
-                <li><a href="{% url 'mhdelete' %}">Delete Profile</a></li>
-
-
-                <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
-
-            </ul>
-
+<!-- TOP NAVIGATION BAR - NO SIDEBAR -->
+<div class="top-nav">
+    <div class="nav-container">
+        <div class="logo">
+            <h2>✦ MODEL STUDIO</h2>
         </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'mhdashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'mhbooking' %}">Bookings</a></li>
+            <li><a href="{% url 'mhedit' %}">Edit Profile</a></li>
+            <li><a href="{% url 'mhdelete' %}">Delete Profile</a></li>
+            <li><a href="{% url 'modelhublogout' %}">Logout</a></li>
+        </ul>
+    </div>
+</div>
 
+<!-- MAIN CONTENT -->
+<div class="main-content">
 
-        <!-- Content -->
-
-        <div class="content">
-
-            <div class="container">
-
-                <!-- Profile Card -->
-
-                <div class="profile-card">
-
-                    <div class="profile-top">
-
-                        <div class="profile-img">
-                            {% if profile.profile_image %}
-                            <img src="{{ profile.profile_image.url }}">
-                            {% endif %}
-                        </div>
-
-                        <div class="profile-info">
-
-                            <h1>{{ profile.full_name }}</h1>
-
-                            <div class="details">
-
-                                <p><strong>Email :</strong> {{ model.email }}</p>
-
-                                <p><strong>Country :</strong> {{ model.country }}</p>
-
-                                <p><strong>Agency :</strong> {{ model.agency }}</p>
-
-                                <p><strong>Category :</strong> {{ model.category }}</p>
-
-                                <p><strong>Instagram Followers :</strong> {{ model.instagram_followers }}</p>
-
-                                <p><strong>Years Active :</strong> {{ model.years_active }}</p>
-
-                                <p><strong>Runway Shows :</strong> {{ model.runway_shows }}</p>
-
-                                <p><strong>Awards :</strong> {{ model.awards }}</p>
-
-                                <p><strong>Introduction :</strong> {{ model.introduction }}</p>
-
-                                <p><strong>About :</strong> {{ model.about }}</p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Gallery -->
-
-                <h2 class="gallery-title">Model Gallery</h2>
-
-                <div class="gallery">
-
-                    {% if model.image_1 %}
-                    <img src="{{ model.image_1.url }}">
-                    {% endif %}
-
-                    {% if model.image_2 %}
-                    <img src="{{ model.image_2.url }}">
-                    {% endif %}
-
-                    {% if model.image_3 %}
-                    <img src="{{ model.image_3.url }}">
-                    {% endif %}
-
-                    {% if model.image_4 %}
-                    <img src="{{ model.image_4.url }}">
-                    {% endif %}
-
-                    {% if model.image_5 %}
-                    <img src="{{ model.image_5.url }}">
-                    {% endif %}
-
-                    {% if model.image_6 %}
-                    <img src="{{ model.image_6.url }}">
-                    {% endif %}
-
-                    {% if model.image_7 %}
-                    <img src="{{ model.image_7.url }}">
-                    {% endif %}
-
-                    {% if model.image_8 %}
-                    <img src="{{ model.image_8.url }}">
-                    {% endif %}
-
-                    {% if model.image_9 %}
-                    <img src="{{ model.image_9.url }}">
-                    {% endif %}
-
-                </div>
-
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <div class="profile-top">
+            <div class="profile-img" onclick="openLightbox('{{ profile.profile_image.url }}', 'Profile Image')">
+                {% if profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" alt="{{ profile.full_name }}">
+                {% else %}
+                <div style="width: 280px; height: 280px; background: #1a1e2a; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #6b7280; border: 1px solid #2a2e36;">📷 No Image</div>
+                {% endif %}
             </div>
-
+            <div class="profile-info">
+                <h1>{{ profile.full_name }}</h1>
+                <div class="details">
+                    <p><strong>Email :</strong> {{ model.email }}</p>
+                    <p><strong>Country :</strong> {{ model.country }}</p>
+                    <p><strong>Agency :</strong> {{ model.agency }}</p>
+                    <p><strong>Category :</strong> {{ model.category }}</p>
+                    <p><strong>Instagram Followers :</strong> {{ model.instagram_followers }}</p>
+                    <p><strong>Years Active :</strong> {{ model.years_active }}</p>
+                    <p><strong>Runway Shows :</strong> {{ model.runway_shows }}</p>
+                    <p><strong>Awards :</strong> {{ model.awards }}</p>
+                    <p><strong>Introduction :</strong> {{ model.introduction }}</p>
+                    <p><strong>About :</strong> {{ model.about }}</p>
+                </div>
+            </div>
         </div>
-
     </div>
 
-</body>
+    <!-- Gallery Section -->
+    <div class="gallery-header">
+        <h2 class="gallery-title">Model Gallery</h2>
+        <div style="font-size: 0.8rem; color: #6b7280;">✨ {{ model.image_1|yesno:"Click any image to enlarge,No images yet" }}</div>
+    </div>
 
+    <div class="gallery">
+        {% if model.image_1 %}
+        <div class="gallery-item" data-src="{{ model.image_1.url }}" data-caption="Gallery Image 1">
+            <img src="{{ model.image_1.url }}" alt="Gallery image 1" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_2 %}
+        <div class="gallery-item" data-src="{{ model.image_2.url }}" data-caption="Gallery Image 2">
+            <img src="{{ model.image_2.url }}" alt="Gallery image 2" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_3 %}
+        <div class="gallery-item" data-src="{{ model.image_3.url }}" data-caption="Gallery Image 3">
+            <img src="{{ model.image_3.url }}" alt="Gallery image 3" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_4 %}
+        <div class="gallery-item" data-src="{{ model.image_4.url }}" data-caption="Gallery Image 4">
+            <img src="{{ model.image_4.url }}" alt="Gallery image 4" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_5 %}
+        <div class="gallery-item" data-src="{{ model.image_5.url }}" data-caption="Gallery Image 5">
+            <img src="{{ model.image_5.url }}" alt="Gallery image 5" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_6 %}
+        <div class="gallery-item" data-src="{{ model.image_6.url }}" data-caption="Gallery Image 6">
+            <img src="{{ model.image_6.url }}" alt="Gallery image 6" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_7 %}
+        <div class="gallery-item" data-src="{{ model.image_7.url }}" data-caption="Gallery Image 7">
+            <img src="{{ model.image_7.url }}" alt="Gallery image 7" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_8 %}
+        <div class="gallery-item" data-src="{{ model.image_8.url }}" data-caption="Gallery Image 8">
+            <img src="{{ model.image_8.url }}" alt="Gallery image 8" loading="lazy">
+        </div>
+        {% endif %}
+        {% if model.image_9 %}
+        <div class="gallery-item" data-src="{{ model.image_9.url }}" data-caption="Gallery Image 9">
+            <img src="{{ model.image_9.url }}" alt="Gallery image 9" loading="lazy">
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- If no images, show subtle message -->
+    {% if not model.image_1 and not model.image_2 and not model.image_3 and not model.image_4 and not model.image_5 and not model.image_6 and not model.image_7 and not model.image_8 and not model.image_9 %}
+    <div class="empty-gallery">
+        <span>✨ No gallery images added yet</span>
+        <p style="margin-top: 8px; font-size: 0.85rem;">Upload images in your edit profile section</p>
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <img id="lightbox-img" src="" alt="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<script>
+    // Staggered gallery animation
+    document.querySelectorAll('.gallery-item').forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.05}s`;
+    });
+
+    // Lightbox functionality
+    let currentImageIndex = 0;
+    let galleryImages = [];
+
+    function openLightbox(src, caption) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        
+        lightboxImg.src = src;
+        lightboxCaption.textContent = caption || 'Model Image';
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        showToast('Image opened', '🔍');
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Add click listeners to all gallery images
+    document.querySelectorAll('.gallery-item').forEach((item, idx) => {
+        const imgSrc = item.getAttribute('data-src');
+        const imgCaption = item.getAttribute('data-caption') || `Gallery Image ${idx + 1}`;
+        
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openLightbox(imgSrc, imgCaption);
+        });
+    });
+
+    // Keyboard navigation for lightbox
+    document.addEventListener('keydown', (e) => {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox.classList.contains('active')) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        }
+    });
+
+    // Toast notification function
+    function showToast(message, icon = '✨') {
+        const toast = document.getElementById('toast');
+        toast.textContent = `${icon} ${message}`;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    // Welcome toast on page load
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            showToast('Welcome back!', '👋');
+        }, 500);
+    });
+
+    // Add scroll reveal animation for details
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.details p').forEach(p => {
+        p.style.opacity = '0';
+        p.style.transform = 'translateY(20px)';
+        p.style.transition = 'all 0.4s ease';
+        observer.observe(p);
+    });
+
+    // Animate details items with delay
+    document.querySelectorAll('.details p').forEach((p, index) => {
+        p.style.transitionDelay = `${index * 0.03}s`;
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Only handle anchor links that point to same page sections
+            const hash = this.getAttribute('href');
+            if (hash && hash.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    showToast('Navigating to section', '📍');
+                }
+            }
+        });
+    });
+
+    // Hover effect for profile card
+    const profileCard = document.querySelector('.profile-card');
+    if (profileCard) {
+        profileCard.addEventListener('mouseenter', () => {
+            console.log('Profile card hovered');
+        });
+    }
+
+    // Image loading animation
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.addEventListener('load', () => {
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => {
+                img.style.opacity = '1';
+            }, 50);
+        });
+        
+        if (img.complete) {
+            img.style.opacity = '1';
+        }
+    });
+
+    // Prevent lightbox close when clicking on image
+    document.getElementById('lightbox-img')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+</script>
+
+</body>
 </html>
