@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,8 +35,13 @@
         }
 
         @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .login-container {
@@ -70,7 +76,9 @@
             font-size: 2rem;
             font-weight: 700;
             background: linear-gradient(135deg, #e2e8f0, #9ca3af);
+            background-clip: text;
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             color: transparent;
             margin-bottom: 8px;
         }
@@ -164,6 +172,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -174,60 +183,61 @@
 
 <body>
 
-<div class="login-container">
-    <div class="login-card">
+    <div class="login-container">
+        <div class="login-card">
 
-        <div class="logo">
-            <h1>✦ MODEL STUDIO</h1>
-            <p>Professional Model Hub</p>
-        </div>
-
-        <h2>Welcome Back</h2>
-
-        <form method="POST">
-            {% csrf_token %}
-
-            <div class="input-group">
-                <label>USERNAME</label>
-                <input type="text" name="username" placeholder="Enter your username">
+            <div class="logo">
+                <h1>✦ MODEL STUDIO</h1>
+                <p>Professional Model Hub</p>
             </div>
 
-            <div class="input-group">
-                <label>PASSWORD</label>
-                
-                <div class="password-wrapper">
-                    <input type="password" id="password" name="password" placeholder="Enter your password">
-                    <span class="toggle-password" onclick="togglePassword()">👁</span>
+            <h2>Welcome Back</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="input-group">
+                    <label>USERNAME</label>
+                    <input type="text" name="username" placeholder="Enter your username">
                 </div>
 
+                <div class="input-group">
+                    <label>PASSWORD</label>
+
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Enter your password">
+                        <span class="toggle-password" onclick="togglePassword()">👁</span>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="login-btn">LogIn →</button>
+            </form>
+
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
             </div>
+            {% endif %}
 
-            <button type="submit" class="login-btn">LogIn →</button>
-        </form>
-
-        {% if error %}
-        <div class="error-message">
-            {{ error }}
         </div>
-        {% endif %}
-
     </div>
-</div>
 
-<script>
-function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const icon = document.querySelector(".toggle-password");
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const icon = document.querySelector(".toggle-password");
 
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        icon.textContent = "🙈";
-    } else {
-        passwordInput.type = "password";
-        icon.textContent = "👁";
-    }
-}
-</script>
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.textContent = "🙈";
+            } else {
+                passwordInput.type = "password";
+                icon.textContent = "👁";
+            }
+        }
+    </script>
 
 </body>
+
 </html>
