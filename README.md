@@ -1,7 +1,3 @@
-Alright — here’s a **complete, polished version** of your README with the **Model Panel fully integrated** and everything structured professionally 👇
-
----
-
 # 📸 Models Booking System
 
 <p align="center">
