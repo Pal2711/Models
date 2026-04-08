@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "modelhub/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "modelhub/wsgi.py"
+    }
+  ]
+}

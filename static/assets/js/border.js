@@ -1,41 +1,99 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const ropes = document.querySelectorAll(".rope");
-    if (!ropes.length) return;
+    if (typeof gsap === "undefined") return;
 
-    const baseY = 200;
-    const maxDown = 180;
+    const ropes = document.querySelectorAll("svg path.rope");
 
-    let scrollTimeout;
+    ropes.forEach((rope) => {
 
-    // store original path for each rope
-    ropes.forEach(rope => {
-        const original =
-            `M 20 ${baseY} C 400 ${baseY} 1100 ${baseY} 1480 ${baseY}`;
-        rope.dataset.original = original;
-        rope.setAttribute("d", original);
-    });
+        const svg = rope.closest("svg");
+        if (!svg) return;
 
-    window.addEventListener("scroll", function () {
+        const vb = svg.viewBox?.baseVal;
+        const width = vb?.width || 1500;
+        const height = vb?.height || 400;
 
-        clearTimeout(scrollTimeout);
+        const startX = 0;
+        const endX = width;
+        const baseY = height / 2;
 
-        const docHeight = document.body.scrollHeight - window.innerHeight;
-        const scrollTop = window.scrollY;
-        const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+        let scrollTimeout;
+        let isHovering = false;
 
-        const offsetY = maxDown * scrollPercent;
-        const oscillation = Math.sin(scrollTop / 30) * 25;
-        const totalOffset = offsetY + oscillation;
+        // ✅ original path (cubic)
+        const originalPath =
+            `M ${startX} ${baseY}
+             C ${width * 0.25} ${baseY}
+               ${width * 0.75} ${baseY}
+               ${endX} ${baseY}`;
 
-        // 🔥 ALL ROPES MOVE TOGETHER
-        ropes.forEach(rope => {
+        rope.setAttribute("d", originalPath);
+
+        /* =========================
+           🔹 POINTER EFFECT
+        ========================= */
+
+        svg.addEventListener("pointermove", function (event) {
+
+            isHovering = true;
+
+            const rect = svg.getBoundingClientRect();
+            if (!rect.width || !rect.height) return;
+
+            const x = ((event.clientX - rect.left) / rect.width) * width;
+            const y = ((event.clientY - rect.top) / rect.height) * height;
 
             const newPath =
-                `M 20 ${baseY}
-                 C 400 ${baseY + totalOffset}
-                   1100 ${baseY + totalOffset}
-                   1480 ${baseY}`;
+                `M ${startX} ${baseY}
+                 C ${x} ${y}
+                   ${x} ${y}
+                   ${endX} ${baseY}`;
+
+            gsap.to(rope, {
+                attr: { d: newPath },
+                duration: 0.3,
+                ease: "power3.out",
+                overwrite: true
+            });
+
+        });
+
+        svg.addEventListener("pointerleave", function () {
+
+            isHovering = false;
+
+            gsap.to(rope, {
+                attr: { d: originalPath },
+                duration: 1.5,
+                ease: "elastic.out(1, 0.3)"
+            });
+
+        });
+
+        /* =========================
+           🔹 SCROLL EFFECT
+        ========================= */
+
+        window.addEventListener("scroll", function () {
+
+            if (isHovering) return;
+
+            clearTimeout(scrollTimeout);
+
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollTop = window.scrollY;
+            const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+
+            const maxDown = 180;
+            const offsetY = maxDown * scrollPercent;
+            const oscillation = Math.sin(scrollTop / 30) * 25;
+            const totalOffset = offsetY + oscillation;
+
+            const newPath =
+                `M ${startX} ${baseY}
+                 C ${width * 0.25} ${baseY + totalOffset}
+                   ${width * 0.75} ${baseY + totalOffset}
+                   ${endX} ${baseY}`;
 
             gsap.to(rope, {
                 attr: { d: newPath },
@@ -43,22 +101,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 ease: "power2.out"
             });
 
-        });
-
-        // return when scroll stops
-        scrollTimeout = setTimeout(() => {
-
-            ropes.forEach(rope => {
-
+            scrollTimeout = setTimeout(() => {
                 gsap.to(rope, {
-                    attr: { d: rope.dataset.original },
+                    attr: { d: originalPath },
                     duration: 1.1,
                     ease: "elastic.out(1.2, 0.4)"
                 });
+            }, 180);
 
-            });
-
-        }, 180);
+        });
 
     });
 
