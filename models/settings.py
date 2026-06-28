@@ -9,7 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = 'django-insecure-od&tdp%3qle0hxn!l+6o6iie5_ho4flocpu2xq5jhe3hmat0d*'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    ".vercel.app",
+    "models-topaz-eta.vercel.app",
+]
 
 # Application definition
 INSTALLED_APPS = [
