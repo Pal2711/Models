@@ -420,17 +420,6 @@
   </script>
 
   <script>
-    let images = [];
-
-    {% if details.image_1 %} images.push("{{ details.image_1.url }}"); {% endif %}
-    {% if details.image_2 %} images.push("{{ details.image_2.url }}"); {% endif %}
-    {% if details.image_3 %} images.push("{{ details.image_3.url }}"); {% endif %}
-    {% if details.image_4 %} images.push("{{ details.image_4.url }}"); {% endif %}
-    {% if details.image_5 %} images.push("{{ details.image_5.url }}"); {% endif %}
-    {% if details.image_6 %} images.push("{{ details.image_6.url }}"); {% endif %}
-    {% if details.image_7 %} images.push("{{ details.image_7.url }}"); {% endif %}
-    {% if details.image_8 %} images.push("{{ details.image_8.url }}"); {% endif %}
-    {% if details.image_9 %} images.push("{{ details.image_9.url }}"); {% endif %}
 
     let currentIndex = 0;
     let zoomLevel = 1;
