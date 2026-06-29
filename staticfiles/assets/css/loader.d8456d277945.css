@@ -1,0 +1,66 @@
+/* ===== LUXURY LOADER ===== */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  transition: opacity 2.2s ease;
+}
+
+/* ===== CENTER BOX ===== */
+.loader-box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: center center;
+  transition:
+    transform 2.4s cubic-bezier(.19,1,.22,1),
+    opacity 2s ease;
+}
+
+/* ===== LOGO TEXT ===== */
+.logo-text {
+  display: inline-block;
+  font-size: 46px;
+  font-weight: 500;
+  letter-spacing: 16px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin-bottom: 24px;
+
+  background: linear-gradient(90deg,#fff 0%,#fff 0%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  transition:
+    font-size 1.6s cubic-bezier(.19,1,.22,1);
+}
+
+/* ===== PROGRESS TRACK ===== */
+.progress {
+  height: 2px;
+  width: 0; /* JS will match text width */
+  background: rgba(255,255,255,0.14);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+/* ===== FILL ===== */
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #ffffff;
+  border-radius: 50px;
+  box-shadow:
+    0 0 10px rgba(255,255,255,.75),
+    0 0 22px rgba(255,255,255,.45),
+    0 0 40px rgba(255,255,255,.25);
+}
+
