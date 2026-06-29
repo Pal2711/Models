@@ -713,38 +713,37 @@
   <!-- Footer Section End -->
 
 
-  <!-- bottom to top icon link -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<!-- GSAP CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 
-  <!-- main js file -->
-  <script src="/static/assets/js/main.js"></script>
+<!-- Main JS -->
+<script src="{% static 'assets/js/main.js' %}"></script>
 
-  <!-- cursor js file -->
-  <script src="/static/assets/js/cursor-effect.js"></script>
+<!-- Cursor JS -->
+<script src="{% static 'assets/js/cursor-effect.js' %}"></script>
 
-  <!-- scroll type js file -->
-  <script src="/static/assets/js/fashion_scroll.js"></script>
+<!-- Fashion Scroll JS -->
+<script src="{% static 'assets/js/fashion_scroll.js' %}"></script>
 
-  <!-- bottom to top js file -->
-  <script src="/static/assets/js/top_btn.js"></script>
+<!-- Back to Top JS -->
+<script src="{% static 'assets/js/top_btn.js' %}"></script>
 
-  <!-- border js file -->
-  <script src="/static/assets/js/border.js"></script>
+<!-- Border JS -->
+<script src="{% static 'assets/js/border.js' %}"></script>
 
-  <!-- loader js file -->
-  <script src="/static/assets/js/loader.js"></script>
+<!-- Loader JS -->
+<script src="{% static 'assets/js/loader.js' %}"></script>
 
-  <script>
+<script>
     function openLightbox(src) {
-      document.getElementById("lightbox").style.display = "flex";
-      document.getElementById("lightbox-img").src = src;
+        document.getElementById("lightbox").style.display = "flex";
+        document.getElementById("lightbox-img").src = src;
     }
 
     function closeLightbox() {
-      document.getElementById("lightbox").style.display = "none";
+        document.getElementById("lightbox").style.display = "none";
     }
-  </script>
+</script>
 
 </body>
-
 </html>
